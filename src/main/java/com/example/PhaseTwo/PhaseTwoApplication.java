@@ -1,8 +1,12 @@
 package com.example.PhaseTwo;
 
+import com.example.PhaseTwo.model.entity.Bid;
 import com.example.PhaseTwo.model.entity.Customer;
+import com.example.PhaseTwo.model.entity.Expert;
 import com.example.PhaseTwo.model.entity.Orders;
+import com.example.PhaseTwo.model.service.impl.BidServiceImpl;
 import com.example.PhaseTwo.model.service.impl.CustomerServiceImpl;
+import com.example.PhaseTwo.model.service.impl.ExpertServiceImpl;
 import com.example.PhaseTwo.model.service.impl.OrderServiceImpl;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -25,15 +29,20 @@ public class PhaseTwoApplication {
     class OnStartup implements ApplicationRunner {
         CustomerServiceImpl customerService;
         OrderServiceImpl orderService;
+        BidServiceImpl bidService;
+        ExpertServiceImpl expertService;
 
-        public OnStartup(CustomerServiceImpl customerService, OrderServiceImpl orderService) {
+        public OnStartup(CustomerServiceImpl customerService, OrderServiceImpl orderService, BidServiceImpl bidService, ExpertServiceImpl expertService) {
             this.customerService = customerService;
             this.orderService = orderService;
+            this.bidService = bidService;
+            this.expertService = expertService;
         }
 
         @Override
         public void run(ApplicationArguments args) throws Exception {
-//Arrange
+            //Making an order
+            //Arrange
             Customer customer = new Customer();
             customer.setFirstname("mehran");
             Customer customer1 = customerService.save(customer);
@@ -52,6 +61,29 @@ public class PhaseTwoApplication {
             System.out.println(Objects.equals(loadedOrder.getPrice(), orders1.getPrice()));
             System.out.println(Objects.equals(loadedOrder.getAddress(), orders1.getAddress()));
             System.out.println(Objects.equals(loadedOrder.getCustomer().getId(), orders1.getCustomer().getId()));
+
+
+            //Making a bid
+            //Arrange
+            Expert expert = new Expert();
+            expert.setFirstname("ehsan");
+            Expert expert1 = expertService.save(expert);
+            Bid bid = new Bid();
+            bid.setExpert(expert1);
+            bid.setTimeToStart(LocalDateTime.of(2027, 11, 16, 11, 10));
+            bid.setBidDate(LocalDateTime.now());
+            bid.setHoursNeeded(5l);
+            //Act
+            Bid bid1 = bidService.save(bid, expert1, orders1);
+            //Assert
+            Bid loadedBid = bidService.findById(bid1.getId());
+            System.out.println(bid1.getId() != null);
+            System.out.println(loadedBid != null);
+            System.out.println(Objects.equals(loadedBid.getId(), bid1.getId()));
+            System.out.println(Objects.equals(loadedBid.getHoursNeeded(), bid1.getHoursNeeded()));
+            System.out.println(Objects.equals(loadedBid.getTimeToStart(), bid1.getTimeToStart()));
+            System.out.println(Objects.equals(loadedBid.getExpert().getId(), bid1.getExpert().getId()));
+            System.out.println(Objects.equals(loadedBid.getOrders().getId(), orders1.getId()));
 
 
         }
