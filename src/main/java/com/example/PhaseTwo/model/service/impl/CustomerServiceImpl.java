@@ -1,7 +1,8 @@
-package com.example.PhaseTwo.model.service;
+package com.example.PhaseTwo.model.service.impl;
 
 import com.example.PhaseTwo.model.entity.Customer;
 import com.example.PhaseTwo.model.repository.CustomerRepository;
+import com.example.PhaseTwo.model.service.CustomerService;
 import org.springframework.stereotype.Service;
 
 @Service

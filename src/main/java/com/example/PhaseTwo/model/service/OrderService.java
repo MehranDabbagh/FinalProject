@@ -1,13 +1,8 @@
 package com.example.PhaseTwo.model.service;
 
-import com.example.PhaseTwo.model.repository.OrdersRepository;
-import org.springframework.stereotype.Service;
+import com.example.PhaseTwo.model.entity.Customer;
+import com.example.PhaseTwo.model.entity.Orders;
 
-@Service
-public class OrderService {
-    private OrdersRepository ordersRepository;
-    public OrderService(OrdersRepository ordersRepository) {
-        this.ordersRepository = ordersRepository;
-    }
-
+public interface OrderService {
+    Orders buildingOrder(Orders orders, Customer customer);
 }
