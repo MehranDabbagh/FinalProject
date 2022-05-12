@@ -20,10 +20,9 @@ import java.time.LocalDateTime;
 @Component
 public class Orders {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @ManyToOne
-    @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private Customer customer;
     private Long price;
     private String description;
