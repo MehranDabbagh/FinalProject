@@ -11,4 +11,5 @@ public interface BidService {
    Bid findById(Long id);
     List<Bid> sortByPrice(Long id);
     List<Bid> sortByExpertPoint(Long id);
+    void selectingFromBids(Long bidId,Long orderId);
 }

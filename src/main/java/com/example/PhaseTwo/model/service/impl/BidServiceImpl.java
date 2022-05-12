@@ -59,4 +59,18 @@ public class BidServiceImpl implements BidService {
     public List<Bid> sortByExpertPoint(Long id) {
         return bidRepository.sortByExpertPoint(id);
     }
+    @Override
+    public void selectingFromBids(Long bidId, Long orderId) {
+        Bid bid = findById(bidId);
+        if (bid == null) {
+            System.out.println("there is no bid with this id!");
+            return;
+        }
+        if (bid.getOrders().getId() != orderId) {
+            System.out.println("this bid is not for this order!");
+            return;
+        }
+        bid.setAccepted(true);
+        save(bid, bid.getExpert(), bid.getOrders());
+    }
 }

@@ -1,5 +1,6 @@
 package com.example.PhaseTwo.model.service.impl;
 
+import com.example.PhaseTwo.model.entity.Bid;
 import com.example.PhaseTwo.model.entity.Customer;
 import com.example.PhaseTwo.model.entity.Orders;
 import com.example.PhaseTwo.model.entity.Status;
@@ -17,6 +18,7 @@ import java.util.List;
 public class OrderServiceImpl implements OrderService {
     private OrdersRepository ordersRepository;
     private CustomerServiceImpl customerService;
+
 
     public OrderServiceImpl(OrdersRepository ordersRepository, CustomerServiceImpl customerService) {
         this.ordersRepository = ordersRepository;

@@ -88,6 +88,9 @@ public class PhaseTwoApplication {
             //receiving list sort by price or point
             System.out.println(bidService.sortByPrice(15l));
             System.out.println(bidService.sortByExpertPoint(15l));
+            //making bid with id 21 accepted(one wrong and one true)
+            bidService.selectingFromBids(21l,19l);
+            bidService.selectingFromBids(21l,18l);
         }
     }
 
