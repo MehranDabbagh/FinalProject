@@ -10,6 +10,7 @@ import org.hibernate.annotations.Type;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -31,6 +32,5 @@ public class Expert extends Users {
             joinColumns = @JoinColumn(name = "subServicei_d"),
             inverseJoinColumns = @JoinColumn(name = "expert_id"))
     private Set<SubService> subServices;
-
 
 }

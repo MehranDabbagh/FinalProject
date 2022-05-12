@@ -85,7 +85,9 @@ public class PhaseTwoApplication {
             System.out.println(Objects.equals(loadedBid.getExpert().getId(), bid1.getExpert().getId()));
             System.out.println(Objects.equals(loadedBid.getOrders().getId(), orders1.getId()));
 
-
+            //receiving list sort by price or point
+            System.out.println(bidService.sortByPrice(15l));
+            System.out.println(bidService.sortByExpertPoint(15l));
         }
     }
 

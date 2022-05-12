@@ -17,6 +17,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Component
+
 public class Bid {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -31,4 +32,17 @@ public class Bid {
     private LocalDateTime timeToStart;
     private Boolean accepted;
 
+    @Override
+    public String toString() {
+        return "Bid{" +
+                "id=" + id +
+                ", expert=" + expert +
+                ", orders=" + orders +
+                ", bidDate=" + bidDate +
+                ", offer=" + offer +
+                ", hoursNeeded=" + hoursNeeded +
+                ", timeToStart=" + timeToStart +
+                ", accepted=" + accepted +
+                '}';
+    }
 }

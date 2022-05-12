@@ -8,6 +8,8 @@ import com.example.PhaseTwo.model.service.BidService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
+
 @Service
 public class BidServiceImpl implements BidService {
     private BidRepository bidRepository;
@@ -46,5 +48,15 @@ public class BidServiceImpl implements BidService {
     @Override
     public Bid findById(Long id) {
         return bidRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public List<Bid> sortByPrice(Long id) {
+        return bidRepository.sortByPrice(id);
+    }
+
+    @Override
+    public List<Bid> sortByExpertPoint(Long id) {
+        return bidRepository.sortByExpertPoint(id);
     }
 }
