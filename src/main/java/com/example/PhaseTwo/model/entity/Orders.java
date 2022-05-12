@@ -24,7 +24,6 @@ public class Orders {
     private Long id;
     @ManyToOne
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
-
     private Customer customer;
     private Long price;
     private String description;
