@@ -4,5 +4,5 @@ import com.example.PhaseTwo.model.entity.Admin;
 
 public interface AdminService {
     Admin save(Admin admin);
-
+    void changingPassword(Long Id,String password);
 }

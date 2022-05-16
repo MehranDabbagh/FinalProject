@@ -1,12 +1,13 @@
 package com.example.PhaseTwo.model.service.impl;
 
 import com.example.PhaseTwo.model.entity.Expert;
-import com.example.PhaseTwo.model.entity.Role;
 import com.example.PhaseTwo.model.entity.SubService;
 import com.example.PhaseTwo.model.repository.ExpertRepository;
 import com.example.PhaseTwo.model.repository.SubServiceRepository;
 import com.example.PhaseTwo.model.service.ExpertService;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ExpertServiceImpl implements ExpertService {
@@ -44,6 +45,23 @@ public class ExpertServiceImpl implements ExpertService {
             return expert1;
         }
         return null;
+    }
+
+    @Override
+    public List<Expert> findingExpertsBySubService(SubService service) {
+        SubService subService = subServiceRepository.findById(service.getId()).orElse(null);
+        if (subService != null) {
+            return expertRepository.findExpertBySubServicesContaining(subService);
+        }
+        return null;
+    }
+    @Override
+    public void changingPassword(Long Id, String password) {
+        Expert expert = expertRepository.findById(Id).orElse(null);
+        if (expert != null && expert.getUsers().passwordChecking(password)) {
+            expert.getUsers().setPassword(password);
+            expertRepository.save(expert);
+        }
     }
 
 }

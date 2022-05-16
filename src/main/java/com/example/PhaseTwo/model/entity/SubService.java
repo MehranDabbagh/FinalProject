@@ -1,6 +1,5 @@
 package com.example.PhaseTwo.model.entity;
 
-import com.example.PhaseTwo.model.entity.Service;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,7 +7,6 @@ import lombok.Setter;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
-import java.util.Set;
 
 @Entity
 @Getter
@@ -24,6 +22,6 @@ public class SubService {
     private Long price;
     private String description;
     @ManyToOne
-    private Service serviceCategory;
+    private Services servicesCategory;
 
 }

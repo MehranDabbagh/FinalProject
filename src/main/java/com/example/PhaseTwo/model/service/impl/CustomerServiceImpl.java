@@ -25,5 +25,13 @@ public class CustomerServiceImpl implements CustomerService {
         customerRepository.save(customer);
     }
 
+    @Override
+    public void changingPassword(Long Id, String password) {
+        Customer customer = customerRepository.findById(Id).orElse(null);
+        if (customer != null && customer.getUsers().passwordChecking(password)) {
+            customer.getUsers().setPassword(password);
+            customerRepository.save(customer);
+        }
+    }
 
 }

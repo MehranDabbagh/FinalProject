@@ -19,12 +19,14 @@ public class UserServiceImpl implements UserService {
 
     }
 
+
+
     @Override
-    public void changingPassword(Long Id,String password) {
-        Users users =usersRepository.findById(Id).orElse(null);
-        if(users !=null && users.passwordChecking(password)){
-            users.setPassword(password);
-            usersRepository.save(users);
+    public Boolean verification(Long id) {
+        Users users = usersRepository.findById(id).orElse(null);
+        if (users != null) {
+            return users.getVerified();
         }
+        return false;
     }
 }

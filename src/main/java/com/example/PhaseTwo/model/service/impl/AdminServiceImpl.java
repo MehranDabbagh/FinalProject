@@ -17,5 +17,12 @@ public class AdminServiceImpl implements AdminService {
     public Admin save(Admin admin) {
         return adminRepository.save(admin);
     }
-
+    @Override
+    public void changingPassword(Long Id, String password) {
+        Admin admin = adminRepository.findById(Id).orElse(null);
+        if (admin != null && admin.getUsers().passwordChecking(password)) {
+            admin.getUsers().setPassword(password);
+            adminRepository.save(admin);
+        }
+    }
 }
