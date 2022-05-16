@@ -3,6 +3,7 @@ package com.example.PhaseTwo.model.service.impl;
 import com.example.PhaseTwo.model.entity.Bid;
 import com.example.PhaseTwo.model.entity.Expert;
 import com.example.PhaseTwo.model.entity.Orders;
+import com.example.PhaseTwo.model.entity.Status;
 import com.example.PhaseTwo.model.repository.BidRepository;
 import com.example.PhaseTwo.model.service.BidService;
 import org.springframework.stereotype.Service;
@@ -71,6 +72,7 @@ public class BidServiceImpl implements BidService {
             return;
         }
         bid.setAccepted(true);
+        orderService.findById(orderId).setStatus(Status.OnTheWay);
         save(bid, bid.getExpert(), bid.getOrders());
     }
 }

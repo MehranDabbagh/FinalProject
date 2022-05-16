@@ -24,6 +24,8 @@ public class Orders {
     private Long id;
     @ManyToOne
     private Customer customer;
+    @ManyToOne
+    private SubService subService;
     private Long price;
     private String description;
     private LocalDateTime singUpDate;

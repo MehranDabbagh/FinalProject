@@ -13,12 +13,11 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @ToString
 @Component
 public class Users {
     @Id
-        @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
     @NotNull
     private String password;
@@ -35,6 +34,7 @@ public class Users {
         }
         return false;
     }
+
     private String firstname;
     private String lastname;
     @Column(unique = true)

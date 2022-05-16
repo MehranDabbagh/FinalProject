@@ -20,7 +20,12 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Component
-public class Expert extends Users {
+public class Expert {
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long id;
+    @OneToOne
+    private Users users;
     @Lob
     @Type(type = "org.hibernate.type.BinaryType")
     private byte[] image;

@@ -16,7 +16,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Customer save(Customer customer) {
-        customer.setRole(Role.COSTUMER);
+        customer.getUsers().setRole(Role.COSTUMER);
         return customerRepository.save(customer);
     }
 

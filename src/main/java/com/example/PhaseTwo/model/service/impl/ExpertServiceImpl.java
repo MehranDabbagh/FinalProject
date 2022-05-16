@@ -16,7 +16,6 @@ public class ExpertServiceImpl implements ExpertService {
 
     @Override
     public Expert save(Expert expert) {
-        expert.setRole(Role.EXPERT);
         return expertRepository.save(expert);
     }
 
