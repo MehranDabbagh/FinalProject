@@ -55,6 +55,7 @@ public class ExpertServiceImpl implements ExpertService {
         }
         return null;
     }
+
     @Override
     public void changingPassword(Long Id, String password) {
         Expert expert = expertRepository.findById(Id).orElse(null);
@@ -62,6 +63,16 @@ public class ExpertServiceImpl implements ExpertService {
             expert.getUsers().setPassword(password);
             expertRepository.save(expert);
         }
+    }
+
+    @Override
+    public List<Expert> findAll() {
+        return expertRepository.findAll();
+    }
+
+    @Override
+    public void delete(Expert expert) {
+        expertRepository.deleteById(expert.getId());
     }
 
 }

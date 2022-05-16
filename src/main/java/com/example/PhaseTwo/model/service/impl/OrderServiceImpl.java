@@ -46,5 +46,25 @@ public class OrderServiceImpl implements OrderService {
         return ordersRepository.findById(id).orElse(null);
     }
 
+    @Override
+    public Orders save(Orders orders) {
+        return ordersRepository.save(orders);
+    }
+
+    @Override
+    public Orders update(Orders orders) {
+        return ordersRepository.save(orders);
+    }
+
+    @Override
+    public List<Orders> findAll() {
+        return ordersRepository.findAll();
+    }
+
+    @Override
+    public void delete(Orders orders) {
+        ordersRepository.deleteById(orders.getId());
+    }
+
 
 }

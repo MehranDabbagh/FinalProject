@@ -25,30 +25,45 @@ public class BidServiceImpl implements BidService {
 
     @Override
     public Bid save(Bid bid, Expert expert, Orders orders) {
-        if(bid==null){
+        if (bid == null) {
             return null;
-        }else if(bid.getBidDate()==null ||
-        bid.getHoursNeeded()==null ||
-        bid.getTimeToStart()==null ||
-        bid.getTimeToStart().isBefore(LocalDateTime.now())) {
-            return  null;
-        }
-        if(expert==null || orders ==null){
-            return null;
-        }else  if(expert.getId()<1 || orders.getId()<1){
+        } else if (bid.getBidDate() == null ||
+                bid.getHoursNeeded() == null ||
+                bid.getTimeToStart() == null ||
+                bid.getTimeToStart().isBefore(LocalDateTime.now())) {
             return null;
         }
-        Expert expert1=expertService.findById(expert.getId());
-        Orders orders1=orderService.findById(orders.getId());
+        if (expert == null || orders == null) {
+            return null;
+        } else if (expert.getId() < 1 || orders.getId() < 1) {
+            return null;
+        }
+        Expert expert1 = expertService.findById(expert.getId());
+        Orders orders1 = orderService.findById(orders.getId());
         bid.setExpert(expert1);
         bid.setOrders(orders1);
-        Bid bid1=bidRepository.save(bid);
+        Bid bid1 = bidRepository.save(bid);
         return bid1;
     }
 
     @Override
     public Bid findById(Long id) {
         return bidRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public Bid update(Bid bid) {
+        return bidRepository.save(bid);
+    }
+
+    @Override
+    public List<Bid> findAll() {
+        return bidRepository.findAll();
+    }
+
+    @Override
+    public void delete(Bid bid) {
+        bidRepository.deleteById(bid.getId());
     }
 
     @Override
@@ -60,6 +75,7 @@ public class BidServiceImpl implements BidService {
     public List<Bid> sortByExpertPoint(Long id) {
         return bidRepository.sortByExpertPoint(id);
     }
+
     @Override
     public void selectingFromBids(Long bidId, Long orderId) {
         Bid bid = findById(bidId);

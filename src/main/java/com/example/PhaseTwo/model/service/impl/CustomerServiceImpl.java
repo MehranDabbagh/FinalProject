@@ -6,6 +6,8 @@ import com.example.PhaseTwo.model.repository.CustomerRepository;
 import com.example.PhaseTwo.model.service.CustomerService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CustomerServiceImpl implements CustomerService {
     private CustomerRepository customerRepository;
@@ -32,6 +34,21 @@ public class CustomerServiceImpl implements CustomerService {
             customer.getUsers().setPassword(password);
             customerRepository.save(customer);
         }
+    }
+
+    @Override
+    public Customer findById(Long id) {
+        return customerRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public List<Customer> findAll() {
+        return customerRepository.findAll();
+    }
+
+    @Override
+    public void delete(Customer customer) {
+        customerRepository.deleteById(customer.getId());
     }
 
 }
