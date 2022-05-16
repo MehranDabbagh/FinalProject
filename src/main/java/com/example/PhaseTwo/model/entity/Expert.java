@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.Type;
 import org.springframework.stereotype.Component;
 
@@ -30,12 +31,13 @@ public class Expert {
     @Type(type = "org.hibernate.type.BinaryType")
     private byte[] image;
     private Long point;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
     @JoinTable(
             name = "subService_experts",
             joinColumns = @JoinColumn(name = "subServicei_d"),
             inverseJoinColumns = @JoinColumn(name = "expert_id"))
+
     private Set<SubService> subServices;
 
 }

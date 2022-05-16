@@ -16,7 +16,11 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Component
-public class SubService extends Service {
+public class SubService {
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long id;
+    private String name;
     private Long price;
     private String description;
     @ManyToOne
