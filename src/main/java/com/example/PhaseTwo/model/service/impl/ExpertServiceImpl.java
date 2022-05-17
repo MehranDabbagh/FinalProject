@@ -2,11 +2,15 @@ package com.example.PhaseTwo.model.service.impl;
 
 import com.example.PhaseTwo.model.entity.Expert;
 import com.example.PhaseTwo.model.entity.SubService;
+import com.example.PhaseTwo.model.entity.Users;
 import com.example.PhaseTwo.model.repository.ExpertRepository;
 import com.example.PhaseTwo.model.repository.SubServiceRepository;
 import com.example.PhaseTwo.model.service.ExpertService;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -73,6 +77,30 @@ public class ExpertServiceImpl implements ExpertService {
     @Override
     public void delete(Expert expert) {
         expertRepository.deleteById(expert.getId());
+    }
+    private Example<Expert> createExample(String firstName, String lastName, String email) {
+        Expert expert = new Expert();
+        Users users=new Users();
+        users.setFirstname(firstName);
+        users.setLastname(lastName);
+        users.setEmail(email);
+        expert.setUsers(users);
+        ExampleMatcher matcher = ExampleMatcher.matchingAll()
+                .withIgnoreCase("firstName", "lastName", "email")
+                .withNullHandler(ExampleMatcher.NullHandler.IGNORE)
+                .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
+        Example<Expert> usersExample = Example.of(expert, matcher);
+        return usersExample;
+    }
+    @Override
+    public List<Expert> findByOptional(String firstname, String lastname, String email, SubService subService) {
+       Example<Expert> experts=createExample(firstname,lastname,email);
+       List<Expert> experts1=new ArrayList<>();
+       expertRepository.findAll(experts).forEach(experts1::add);
+      experts1.stream().filter(x->x.getSubServices().contains(subService));
+       return experts1;
+
+
     }
 
 }

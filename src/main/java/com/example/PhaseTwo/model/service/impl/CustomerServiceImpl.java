@@ -2,10 +2,14 @@ package com.example.PhaseTwo.model.service.impl;
 
 import com.example.PhaseTwo.model.entity.Customer;
 import com.example.PhaseTwo.model.entity.Role;
+import com.example.PhaseTwo.model.entity.Users;
 import com.example.PhaseTwo.model.repository.CustomerRepository;
 import com.example.PhaseTwo.model.service.CustomerService;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -36,6 +40,21 @@ public class CustomerServiceImpl implements CustomerService {
         }
     }
 
+    private Example<Customer> createExample(String firstName, String lastName, String email) {
+        Customer customer = new Customer();
+        Users users = new Users();
+        users.setFirstname(firstName);
+        users.setLastname(lastName);
+        users.setEmail(email);
+        customer.setUsers(users);
+        ExampleMatcher matcher = ExampleMatcher.matchingAll()
+                .withIgnoreCase("firstName", "lastName", "email")
+                .withNullHandler(ExampleMatcher.NullHandler.IGNORE)
+                .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
+        Example<Customer> usersExample = Example.of(customer, matcher);
+        return usersExample;
+    }
+
     @Override
     public Customer findById(Long id) {
         return customerRepository.findById(id).orElse(null);
@@ -49,6 +68,14 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public void delete(Customer customer) {
         customerRepository.deleteById(customer.getId());
+    }
+
+    @Override
+    public List<Customer> findByOptional(String firstname, String lastname, String email) {
+        Example<Customer> experts = createExample(firstname, lastname, email);
+        List<Customer> experts1 = new ArrayList<>();
+        customerRepository.findAll(experts).forEach(experts1::add);
+        return experts1;
     }
 
 }

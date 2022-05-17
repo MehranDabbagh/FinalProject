@@ -15,5 +15,6 @@ public interface ExpertService {
     void changingPassword(Long Id,String password);
     List<Expert> findAll();
     void delete(Expert expert);
+    List<Expert> findByOptional(String firstname,String lastname,String email,SubService subService);
 
 }
