@@ -7,14 +7,14 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
 
+
 import javax.persistence.*;
 import java.util.Set;
 
-@Entity
+
 @Getter
 @Setter
-
-@Component
+@Entity
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)

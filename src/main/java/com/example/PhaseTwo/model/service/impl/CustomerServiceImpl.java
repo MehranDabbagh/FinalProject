@@ -5,6 +5,7 @@ import com.example.PhaseTwo.model.entity.Role;
 import com.example.PhaseTwo.model.entity.Users;
 import com.example.PhaseTwo.model.repository.CustomerRepository;
 import com.example.PhaseTwo.model.service.CustomerService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
@@ -14,11 +15,10 @@ import java.util.List;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
+    @Autowired
     private CustomerRepository customerRepository;
 
-    public CustomerServiceImpl(CustomerRepository customerRepository) {
-        this.customerRepository = customerRepository;
-    }
+
 
     @Override
     public Customer save(Customer customer) {
