@@ -20,9 +20,9 @@ public class BidController {
 
     @GetMapping("{id}")
     public ResponseEntity<Bid> findById(@PathVariable("id") Long id) {
-        Bid services = bidService.findById(id);
-        if (services != null) {
-            return ResponseEntity.ok(services);
+        Bid bid = bidService.findById(id);
+        if (bid != null) {
+            return ResponseEntity.ok(bid);
         } else
             return ResponseEntity.notFound().build();
     }
@@ -30,28 +30,28 @@ public class BidController {
     @PutMapping()
     public ResponseEntity<Bid> save(@RequestBody Bid bid) {
         if (checkingInputObject(bid)) {
-            Bid orders1 = bidService.save(bid, bid.getExpert(), bid.getOrders());
-            if (orders1 != null) {
-                return ResponseEntity.ok(orders1);
+            Bid bid1 = bidService.save(bid, bid.getExpert(), bid.getOrders());
+            if (bid1 != null) {
+                return ResponseEntity.ok(bid1);
             }
         }
         return ResponseEntity.badRequest().build();
     }
 
     @PostMapping
-    public ResponseEntity<Bid> update(@RequestBody Bid orders) {
-        if (checkingInputObject(orders)) {
-            bidService.update(orders);
-            return ResponseEntity.ok(orders);
+    public ResponseEntity<Bid> update(@RequestBody Bid bid) {
+        if (checkingInputObject(bid)) {
+            bidService.update(bid);
+            return ResponseEntity.ok(bid);
         }
         return ResponseEntity.badRequest().build();
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Bid> delete(@PathVariable("id") Long id) {
-        Bid orders = bidService.findById(id);
-        if (orders != null) {
-            bidService.delete(orders);
+        Bid bid = bidService.findById(id);
+        if (bid != null) {
+            bidService.delete(bid);
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.badRequest().build();
@@ -63,14 +63,14 @@ public class BidController {
     }
 
 
-    private Boolean checkingInputObject(Bid orders) {
-        if (orders.getOrders() == null ||
-                orders.getBidDate() == null ||
-                orders.getTimeToStart().isBefore(LocalDateTime.now()) ||
-                orders.getExpert() == null ||
-                orders.getHoursNeeded() == null ||
-                orders.getBidDate() == null ||
-                orders.getOffer() == null) {
+    private Boolean checkingInputObject(Bid bid) {
+        if (bid.getOrders() == null ||
+                bid.getBidDate() == null ||
+                bid.getTimeToStart().isBefore(LocalDateTime.now()) ||
+                bid.getExpert() == null ||
+                bid.getHoursNeeded() == null ||
+                bid.getBidDate() == null ||
+                bid.getOffer() == null) {
             return false;
         }
         return true;
