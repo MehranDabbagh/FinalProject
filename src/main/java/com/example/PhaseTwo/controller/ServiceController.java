@@ -29,9 +29,9 @@ public class ServiceController {
     @PutMapping()
     public ResponseEntity<Services> save(@RequestBody Services services) {
         if (checkingInputObject(services)) {
-            Services customer1 = service.save(services);
-            if (customer1 != null) {
-                return ResponseEntity.ok(customer1);
+            Services services1 = service.save(services);
+            if (services1 != null) {
+                return ResponseEntity.ok(services1);
             }
         }
         return ResponseEntity.badRequest().build();
