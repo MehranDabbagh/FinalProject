@@ -67,6 +67,19 @@ public class ExpertController {
         return ResponseEntity.ok(customers);
     }
 
+    @PostMapping("link/{expertId},{subServiceId}")
+    public ResponseEntity<Expert> linkingExpertToSubService(@PathVariable("expertId") Long expertId, @PathVariable("subServiceId") Long subServiceId) {
+        SubService subService = new SubService();
+        subService.setId(subServiceId);
+        Expert expert = expertService.findById(expertId);
+        if (expert != null) {
+            Expert expert1 = expertService.linkingExpertToSubService(expert, subService);
+            return ResponseEntity.ok(expert1);
+        }
+        return ResponseEntity.badRequest().build();
+
+    }
+
     @GetMapping("/findAll")
     public ResponseEntity<List<Expert>> findAll() {
         return ResponseEntity.ok(expertService.findAll());
