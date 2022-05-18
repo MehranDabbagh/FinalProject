@@ -93,13 +93,22 @@ public class ExpertServiceImpl implements ExpertService {
         return usersExample;
     }
     @Override
-    public List<Expert> findByOptional(String firstname, String lastname, String email, SubService subService) {
+    public List<Expert> findByOptional(String firstname, String lastname, String email, Long subServiceId) {
        Example<Expert> experts=createExample(firstname,lastname,email);
        List<Expert> experts1=new ArrayList<>();
-       expertRepository.findAll(experts).forEach(experts1::add);
-      experts1.stream().filter(x->x.getSubServices().contains(subService));
-       return experts1;
+       if(subServiceId!=null) {
+           SubService subService = subServiceRepository.findById(subServiceId).orElse(null);
+           if(subService!=null) {
+               expertRepository.findAll(experts).forEach(experts1::add);
+               experts1.stream().filter(x -> x.getSubServices().contains(subService));
+               return experts1;
+           }
+       }else {
+           expertRepository.findAll(experts).forEach(experts1::add);
+           return experts1;
+       }
 
+       return null;
 
     }
 
