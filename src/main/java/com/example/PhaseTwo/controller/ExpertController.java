@@ -2,6 +2,7 @@ package com.example.PhaseTwo.controller;
 
 
 import com.example.PhaseTwo.model.entity.Expert;
+import com.example.PhaseTwo.model.entity.SubService;
 import com.example.PhaseTwo.model.service.impl.ExpertServiceImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -58,12 +59,17 @@ public class ExpertController {
 
     @PatchMapping("{firstname},{lastname},{email},{subServiceId}")
     public ResponseEntity<List<Expert>> filtering(@PathVariable("firstname") String firstname, @PathVariable("lastname") String lastname,
-                                                  @PathVariable("email") String email, @PathVariable("subServiceId")Long subServiceId) {
-        List<Expert> customers = expertService.findByOptional(firstname, lastname, email,subServiceId);
+                                                  @PathVariable("email") String email, @PathVariable("subServiceId") Long subServiceId) {
+        List<Expert> customers = expertService.findByOptional(firstname, lastname, email, subServiceId);
         if (customers.size() == 0) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(customers);
+    }
+
+    @GetMapping("/findAll")
+    public ResponseEntity<List<Expert>> findAll() {
+        return ResponseEntity.ok(expertService.findAll());
     }
 
     private Boolean checkingInputObject(Expert expert) {

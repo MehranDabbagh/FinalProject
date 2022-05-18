@@ -1,6 +1,7 @@
 package com.example.PhaseTwo.controller;
 
 import com.example.PhaseTwo.model.entity.Customer;
+import com.example.PhaseTwo.model.entity.SubService;
 import com.example.PhaseTwo.model.service.impl.CustomerServiceImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -63,6 +64,11 @@ public class CustomerController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(customers);
+    }
+
+    @GetMapping("/findAll")
+    public ResponseEntity<List<Customer>> findAll() {
+        return ResponseEntity.ok(customerService.findAll());
     }
 
     private Boolean checkingInputObject(Customer customer) {

@@ -1,9 +1,12 @@
 package com.example.PhaseTwo.controller;
 
+import com.example.PhaseTwo.model.entity.Services;
 import com.example.PhaseTwo.model.entity.SubService;
 import com.example.PhaseTwo.model.service.impl.SubServiceServiceImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/subService")
@@ -26,9 +29,9 @@ public class SubServiceController {
     @PutMapping()
     public ResponseEntity<SubService> save(@RequestBody SubService subservice) {
         if (checkingInputObject(subservice)) {
-            SubService customer1 = subServiceService.save(subservice);
-            if (customer1 != null) {
-                return ResponseEntity.ok(customer1);
+            SubService subService = subServiceService.save(subservice);
+            if (subService != null) {
+                return ResponseEntity.ok(subService);
             }
         }
         return ResponseEntity.badRequest().build();
@@ -51,6 +54,11 @@ public class SubServiceController {
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.badRequest().build();
+    }
+
+    @GetMapping("/findAll")
+    public ResponseEntity<List<SubService>> findAll() {
+        return ResponseEntity.ok(subServiceService.findAll());
     }
 
 
