@@ -1,4 +1,4 @@
-package com.example.PhaseTwo;
+package com.example.PhaseTwo.controller;
 
 import com.example.PhaseTwo.model.entity.Customer;
 import com.example.PhaseTwo.model.service.impl.CustomerServiceImpl;
