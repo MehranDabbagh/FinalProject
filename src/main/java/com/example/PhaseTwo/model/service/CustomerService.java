@@ -4,16 +4,17 @@ import com.example.PhaseTwo.model.entity.Customer;
 import com.example.PhaseTwo.model.entity.Expert;
 import com.example.PhaseTwo.model.entity.Services;
 import com.example.PhaseTwo.model.entity.SubService;
+import com.example.PhaseTwo.model.entity.dto.CustomerDto;
 
 import java.util.List;
 
 public interface CustomerService {
-    Customer save(Customer customer);
-    void update(Customer customer);
+    CustomerDto save(CustomerDto customer);
+    void update(CustomerDto customer);
     void changingPassword(Long Id,String password);
-    Customer findById(Long id);
-    List<Customer> findAll();
-    void delete(Customer customer);
-    List<Customer> findByOptional(String firstname, String lastname, String email);
+    CustomerDto findById(Long id);
+    List<CustomerDto> findAll();
+    void delete(CustomerDto customer);
+    List<CustomerDto> findByOptional(String firstname, String lastname, String email);
 
 }

@@ -2,6 +2,7 @@ package com.example.PhaseTwo.controller;
 
 import com.example.PhaseTwo.model.entity.Customer;
 import com.example.PhaseTwo.model.entity.SubService;
+import com.example.PhaseTwo.model.entity.dto.CustomerDto;
 import com.example.PhaseTwo.model.service.impl.CustomerServiceImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,8 +19,8 @@ public class CustomerController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Customer> findById(@PathVariable("id") Long id) {
-        Customer customer = customerService.findById(id);
+    public ResponseEntity<CustomerDto> findById(@PathVariable("id") Long id) {
+        CustomerDto customer = customerService.findById(id);
         if (customer != null) {
             return ResponseEntity.ok(customer);
         } else
@@ -27,9 +28,9 @@ public class CustomerController {
     }
 
     @PutMapping()
-    public ResponseEntity<Customer> save(@RequestBody Customer customer) {
+    public ResponseEntity<CustomerDto> save(@RequestBody CustomerDto customer) {
         if (checkingInputObject(customer)) {
-            Customer customer1 = customerService.save(customer);
+            CustomerDto customer1 = customerService.save(customer);
             if (customer1 != null) {
                 return ResponseEntity.ok(customer1);
             }
@@ -38,7 +39,7 @@ public class CustomerController {
     }
 
     @PostMapping
-    public ResponseEntity<Customer> update(@RequestBody Customer customer) {
+    public ResponseEntity<CustomerDto> update(@RequestBody CustomerDto customer) {
         if (checkingInputObject(customer)) {
             customerService.update(customer);
             return ResponseEntity.ok(customer);
@@ -47,8 +48,8 @@ public class CustomerController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Customer> delete(@PathVariable("id") Long id) {
-        Customer customer = customerService.findById(id);
+    public ResponseEntity<CustomerDto> delete(@PathVariable("id") Long id) {
+        CustomerDto customer = customerService.findById(id);
         if (customer != null) {
             customerService.delete(customer);
             return ResponseEntity.ok().build();
@@ -57,9 +58,9 @@ public class CustomerController {
     }
 
     @PatchMapping("{firstname},{lastname},{email}")
-    public ResponseEntity<List<Customer>> filtering(@PathVariable("firstname") String firstname, @PathVariable("lastname") String lastname,
-                                                    @PathVariable("email") String email) {
-        List<Customer> customers = customerService.findByOptional(firstname, lastname, email);
+    public ResponseEntity<List<CustomerDto>> filtering(@PathVariable("firstname") String firstname, @PathVariable("lastname") String lastname,
+                                                       @PathVariable("email") String email) {
+        List<CustomerDto> customers = customerService.findByOptional(firstname, lastname, email);
         if (customers.size() == 0) {
             return ResponseEntity.notFound().build();
         }
@@ -67,16 +68,16 @@ public class CustomerController {
     }
 
     @GetMapping("/findAll")
-    public ResponseEntity<List<Customer>> findAll() {
+    public ResponseEntity<List<CustomerDto>> findAll() {
         return ResponseEntity.ok(customerService.findAll());
     }
 
-    private Boolean checkingInputObject(Customer customer) {
-        if (customer == null ) {
+    private Boolean checkingInputObject(CustomerDto customer) {
+        if (customer == null) {
             return false;
         }
-        if (customer.getEmail() == null || customer.getFirstname() == null
-                || customer.getLastname() == null || !customer.passwordChecking(customer.getPassword())) {
+        if (customer.getEmail() == null || customer.getFirstName() == null
+                || customer.getLastName() == null) {
             return false;
         }
         return true;

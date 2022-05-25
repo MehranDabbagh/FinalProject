@@ -36,7 +36,7 @@ public class OrderServiceImpl implements OrderService {
             orders.setStatus(Status.Bid);
             orders.setCustomer(customer);
             Orders orders1 = ordersRepository.save(orders);
-            customerService.update(customer);
+            customerService.update(customerService.convertingToDto(customer));
             return orders1;
         }
     }
