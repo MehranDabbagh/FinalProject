@@ -11,7 +11,7 @@ import java.util.InputMismatchException;
 @RestControllerAdvice
 public class GlobalExceptionHandling {
     @ExceptionHandler(value = NullPointerException.class)
-    public ResponseEntity<Object> nullPointHnadler(Exception ex, WebRequest request) {
+    public ResponseEntity<Object> nullPointHandler(Exception ex, WebRequest request) {
         return ResponseEntity.ok(null);
     }
 
