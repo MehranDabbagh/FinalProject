@@ -4,6 +4,7 @@ import com.example.PhaseTwo.model.entity.Bid;
 import com.example.PhaseTwo.model.entity.Expert;
 import com.example.PhaseTwo.model.entity.Orders;
 import com.example.PhaseTwo.model.entity.Status;
+import com.example.PhaseTwo.model.entity.dto.ExpertDto;
 import com.example.PhaseTwo.model.repository.BidRepository;
 import com.example.PhaseTwo.model.service.BidService;
 import org.springframework.stereotype.Service;
@@ -29,12 +30,12 @@ public class BidServiceImpl implements BidService {
         if (bid.getTimeToStart().isBefore(LocalDateTime.now())) {
             throw new InputMismatchException("date is already gone!");
         }
-        Expert expert1 = expertService.findById(expert.getId());
+        ExpertDto expert1 = expertService.findById(expert.getId());
         Orders orders1 = orderService.findById(orders.getId());
         if (expert1 == null || orders1 == null) {
             throw new NullPointerException("wrong id!");
         }
-        bid.setExpert(expert1);
+        bid.setExpert(expertService.convertingToExpert(expert1));
         bid.setOrders(orders1);
         Bid bid1 = bidRepository.save(bid);
         return bid1;
