@@ -7,6 +7,7 @@ import com.example.PhaseTwo.model.entity.dto.CustomerDto;
 import com.example.PhaseTwo.model.entity.dto.PasswordChangingDto;
 import com.example.PhaseTwo.model.service.impl.CustomerServiceImpl;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -29,7 +30,7 @@ public class CustomerController {
         } else
             return ResponseEntity.notFound().build();
     }
-
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping()
     public ResponseEntity<CustomerDto> save(@Valid @RequestBody Customer customer) {
 

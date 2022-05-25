@@ -36,7 +36,6 @@ public class Users implements UserDetails {
     @NotEmpty
     private String lastname;
     private Boolean verified;
-    @NotEmpty
     private LocalDateTime singUpDate;
     private Long credit;
     @NotEmpty
@@ -51,29 +50,32 @@ public class Users implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return  List.of(new SimpleGrantedAuthority(role.name()));
     }
-
+    @Override
+    public String getPassword() {
+        return password;
+    }
     @Override
     public String getUsername() {
-        return null;
+        return username;
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return !expired;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return !locked;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return !credentialsExpired;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return enabled;
     }
 }
