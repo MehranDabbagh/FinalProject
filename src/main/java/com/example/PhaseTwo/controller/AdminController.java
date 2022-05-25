@@ -3,6 +3,7 @@ package com.example.PhaseTwo.controller;
 import com.example.PhaseTwo.model.entity.Admin;
 import com.example.PhaseTwo.model.entity.dto.AdminDto;
 import com.example.PhaseTwo.model.entity.dto.CustomerDto;
+import com.example.PhaseTwo.model.entity.dto.PasswordChangingDto;
 import com.example.PhaseTwo.model.service.impl.AdminServiceImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -59,4 +60,9 @@ public class AdminController {
         return ResponseEntity.ok(adminService.findAll());
     }
 
+    @PostMapping("/passwordChanging")
+    public ResponseEntity<AdminDto> changingPassword(@Valid @RequestBody PasswordChangingDto passwordChangingDto) {
+        adminService.changingPassword(passwordChangingDto.getId(), passwordChangingDto.getPassword());
+        return ResponseEntity.ok().build();
+    }
 }

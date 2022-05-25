@@ -3,7 +3,9 @@ package com.example.PhaseTwo.controller;
 
 import com.example.PhaseTwo.model.entity.Expert;
 import com.example.PhaseTwo.model.entity.SubService;
+import com.example.PhaseTwo.model.entity.dto.AdminDto;
 import com.example.PhaseTwo.model.entity.dto.ExpertDto;
+import com.example.PhaseTwo.model.entity.dto.PasswordChangingDto;
 import com.example.PhaseTwo.model.service.impl.ExpertServiceImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -32,9 +34,9 @@ public class ExpertController {
     @PutMapping()
     public ResponseEntity<ExpertDto> save(@Valid @RequestBody Expert expert) {
 
-            ExpertDto expert1 = expertService.save(expert);
-            if (expert1 != null) {
-                return ResponseEntity.ok(expert1);
+        ExpertDto expert1 = expertService.save(expert);
+        if (expert1 != null) {
+            return ResponseEntity.ok(expert1);
 
         }
         return ResponseEntity.badRequest().build();
@@ -42,8 +44,8 @@ public class ExpertController {
 
     @PostMapping
     public ResponseEntity<ExpertDto> update(@Valid @RequestBody ExpertDto customer) {
-            expertService.update(customer);
-            return ResponseEntity.ok(customer);
+        expertService.update(customer);
+        return ResponseEntity.ok(customer);
     }
 
     @DeleteMapping("/{id}")
@@ -84,5 +86,10 @@ public class ExpertController {
         return ResponseEntity.ok(expertService.findAll());
     }
 
+    @PostMapping("/passwordChanging")
+    public ResponseEntity<ExpertDto> changingPassword(@Valid @RequestBody PasswordChangingDto passwordChangingDto) {
+        expertService.changingPassword(passwordChangingDto.getId(), passwordChangingDto.getPassword());
+        return ResponseEntity.ok().build();
+    }
 
 }

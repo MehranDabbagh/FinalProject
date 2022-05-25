@@ -2,7 +2,9 @@ package com.example.PhaseTwo.controller;
 
 import com.example.PhaseTwo.model.entity.Customer;
 import com.example.PhaseTwo.model.entity.SubService;
+import com.example.PhaseTwo.model.entity.dto.AdminDto;
 import com.example.PhaseTwo.model.entity.dto.CustomerDto;
+import com.example.PhaseTwo.model.entity.dto.PasswordChangingDto;
 import com.example.PhaseTwo.model.service.impl.CustomerServiceImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,17 +33,17 @@ public class CustomerController {
     @PutMapping()
     public ResponseEntity<CustomerDto> save(@Valid @RequestBody Customer customer) {
 
-            CustomerDto customer1 = customerService.save(customer);
-            if (customer1 != null) {
-                return ResponseEntity.ok(customer1);
+        CustomerDto customer1 = customerService.save(customer);
+        if (customer1 != null) {
+            return ResponseEntity.ok(customer1);
         }
         return ResponseEntity.badRequest().build();
     }
 
     @PostMapping
     public ResponseEntity<CustomerDto> update(@Valid @RequestBody CustomerDto customer) {
-            customerService.update(customer);
-            return ResponseEntity.ok(customer);
+        customerService.update(customer);
+        return ResponseEntity.ok(customer);
     }
 
     @DeleteMapping("/{id}")
@@ -69,4 +71,9 @@ public class CustomerController {
         return ResponseEntity.ok(customerService.findAll());
     }
 
+    @PostMapping("/passwordChanging")
+    public ResponseEntity<CustomerDto> changingPassword(@Valid @RequestBody PasswordChangingDto passwordChangingDto) {
+        customerService.changingPassword(passwordChangingDto.getId(), passwordChangingDto.getPassword());
+        return ResponseEntity.ok().build();
+    }
 }
