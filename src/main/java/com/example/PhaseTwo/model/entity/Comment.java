@@ -8,6 +8,7 @@ import lombok.Setter;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Getter
@@ -19,9 +20,12 @@ public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
+    @NotEmpty
     private Long score;
+    @NotEmpty
     @ManyToOne
     private Bid bid;
+    @NotEmpty
     private String comment;
 
 

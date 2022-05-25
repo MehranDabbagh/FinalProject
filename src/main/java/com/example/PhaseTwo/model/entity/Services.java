@@ -10,6 +10,7 @@ import org.hibernate.annotations.FetchMode;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Getter
@@ -22,5 +23,6 @@ public class Services {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
+    @NotEmpty
     private String name;
 }

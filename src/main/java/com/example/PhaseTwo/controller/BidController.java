@@ -6,6 +6,7 @@ import com.example.PhaseTwo.model.service.impl.BidServiceImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -28,23 +29,20 @@ public class BidController {
     }
 
     @PutMapping()
-    public ResponseEntity<Bid> save(@RequestBody Bid bid) {
-        if (checkingInputObject(bid)) {
+    public ResponseEntity<Bid> save(@Valid @RequestBody Bid bid) {
             Bid bid1 = bidService.save(bid, bid.getExpert(), bid.getOrders());
             if (bid1 != null) {
                 return ResponseEntity.ok(bid1);
             }
-        }
         return ResponseEntity.badRequest().build();
     }
 
     @PostMapping
-    public ResponseEntity<Bid> update(@RequestBody Bid bid) {
-        if (checkingInputObject(bid)) {
+    public ResponseEntity<Bid> update(@Valid @RequestBody Bid bid) {
+
             bidService.update(bid);
             return ResponseEntity.ok(bid);
-        }
-        return ResponseEntity.badRequest().build();
+
     }
 
     @DeleteMapping("/{id}")
@@ -63,17 +61,6 @@ public class BidController {
     }
 
 
-    private Boolean checkingInputObject(Bid bid) {
-        if (bid.getOrders() == null ||
-                bid.getBidDate() == null ||
-                bid.getTimeToStart().isBefore(LocalDateTime.now()) ||
-                bid.getExpert() == null ||
-                bid.getHoursNeeded() == null ||
-                bid.getBidDate() == null ||
-                bid.getOffer() == null) {
-            return false;
-        }
-        return true;
-    }
+
 }
 

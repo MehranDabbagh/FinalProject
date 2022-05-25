@@ -6,6 +6,7 @@ import com.example.PhaseTwo.model.service.impl.OrderServiceImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -29,23 +30,22 @@ public class OrdersController {
     }
 
     @PutMapping()
-    public ResponseEntity<Orders> save(@RequestBody Orders orders) {
-        if (checkingInputObject(orders)) {
+    public ResponseEntity<Orders> save(@Valid @RequestBody Orders orders) {
+
             Orders orders1 = orderService.save(orders);
             if (orders1 != null) {
                 return ResponseEntity.ok(orders1);
             }
-        }
+
         return ResponseEntity.badRequest().build();
     }
 
     @PostMapping
-    public ResponseEntity<Orders> update(@RequestBody Orders orders) {
-        if (checkingInputObject(orders)) {
+    public ResponseEntity<Orders> update(@Valid @RequestBody Orders orders) {
+
             orderService.update(orders);
             return ResponseEntity.ok(orders);
-        }
-        return ResponseEntity.badRequest().build();
+
     }
 
     @DeleteMapping("/{id}")
@@ -64,16 +64,5 @@ public class OrdersController {
     }
 
 
-    private Boolean checkingInputObject(Orders orders) {
-        if (orders.getPrice() == null ||
-                orders.getAddress() == null ||
-                orders.getRequiredDate().isBefore(LocalDateTime.now()) ||
-                orders.getCustomer() == null ||
-                orders.getSingUpDate() == null ||
-                orders.getSubService() == null) {
-            return false;
-        }
-        return true;
-    }
 }
 

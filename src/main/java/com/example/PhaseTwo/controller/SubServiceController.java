@@ -6,6 +6,7 @@ import com.example.PhaseTwo.model.service.impl.SubServiceServiceImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -27,23 +28,19 @@ public class SubServiceController {
     }
 
     @PutMapping()
-    public ResponseEntity<SubService> save(@RequestBody SubService subservice) {
-        if (checkingInputObject(subservice)) {
+    public ResponseEntity<SubService> save(@Valid @RequestBody SubService subservice) {
+
             SubService subService = subServiceService.save(subservice);
             if (subService != null) {
                 return ResponseEntity.ok(subService);
-            }
         }
         return ResponseEntity.badRequest().build();
     }
 
     @PostMapping
-    public ResponseEntity<SubService> update(@RequestBody SubService subservice) {
-        if (checkingInputObject(subservice)) {
+    public ResponseEntity<SubService> update(@Valid @RequestBody SubService subservice) {
             subServiceService.update(subservice);
             return ResponseEntity.ok(subservice);
-        }
-        return ResponseEntity.badRequest().build();
     }
 
     @DeleteMapping("/{id}")
@@ -59,16 +56,5 @@ public class SubServiceController {
     @GetMapping("/findAll")
     public ResponseEntity<List<SubService>> findAll() {
         return ResponseEntity.ok(subServiceService.findAll());
-    }
-
-
-    private Boolean checkingInputObject(SubService subservice) {
-        if (subservice.getServicesCategory() == null ||
-                subservice.getDescription() == null ||
-                subservice.getName() == null ||
-                subservice.getPrice() == null) {
-            return false;
-        }
-        return true;
     }
 }

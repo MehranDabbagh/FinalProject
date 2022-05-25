@@ -6,6 +6,7 @@ import com.example.PhaseTwo.model.service.impl.ServiceServiceImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -27,23 +28,19 @@ public class ServiceController {
     }
 
     @PutMapping()
-    public ResponseEntity<Services> save(@RequestBody Services services) {
-        if (checkingInputObject(services)) {
+    public ResponseEntity<Services> save(@Valid @RequestBody Services services) {
+
             Services services1 = service.save(services);
             if (services1 != null) {
                 return ResponseEntity.ok(services1);
-            }
         }
         return ResponseEntity.badRequest().build();
     }
 
     @PostMapping
-    public ResponseEntity<Services> update(@RequestBody Services services) {
-        if (checkingInputObject(services)) {
+    public ResponseEntity<Services> update(@Valid @RequestBody Services services) {
             service.update(services);
             return ResponseEntity.ok(services);
-        }
-        return ResponseEntity.badRequest().build();
     }
 
     @DeleteMapping("/{id}")
@@ -59,13 +56,5 @@ public class ServiceController {
     @GetMapping("/findAll")
     public ResponseEntity<List<Services>> findAll() {
         return ResponseEntity.ok(service.findAll());
-    }
-
-
-    private Boolean checkingInputObject(Services services) {
-        if (services.getName() == null) {
-            return false;
-        }
-        return true;
     }
 }

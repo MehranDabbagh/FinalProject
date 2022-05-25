@@ -3,16 +3,21 @@ package com.example.PhaseTwo.model.entity.dto;
 import com.example.PhaseTwo.model.entity.Role;
 import com.example.PhaseTwo.model.entity.SubService;
 
+import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
 import java.util.Set;
 
 public class ExpertDto {
     private Long id;
+    @NotEmpty
     private String firstName;
+    @NotEmpty
     private String lastName;
     private Role role;
+    @NotEmpty
     private String email;
     private Boolean verified;
+    @NotEmpty
     private LocalDateTime singUpDate;
     private Long credit;
     private byte[] image;

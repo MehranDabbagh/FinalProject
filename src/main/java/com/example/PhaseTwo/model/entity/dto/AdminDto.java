@@ -2,15 +2,20 @@ package com.example.PhaseTwo.model.entity.dto;
 
 import com.example.PhaseTwo.model.entity.Role;
 
+import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
 
 public class AdminDto {
     private Long id;
+    @NotEmpty
     private String firstName;
+    @NotEmpty
     private String lastName;
     private Role role;
+    @NotEmpty
     private String email;
     private Boolean verified;
+    @NotEmpty
     private LocalDateTime singUpDate;
     private Long credit;
 

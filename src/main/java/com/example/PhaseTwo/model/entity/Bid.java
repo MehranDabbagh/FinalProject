@@ -9,6 +9,7 @@ import lombok.Setter;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
 
 @Entity
@@ -22,13 +23,19 @@ public class Bid {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
+    @NotEmpty
     @ManyToOne
     private Expert expert;
+    @NotEmpty
     @ManyToOne
     private Orders orders;
+    @NotEmpty
     private LocalDateTime bidDate;
+    @NotEmpty
     private Long offer;
+    @NotEmpty
     private Long hoursNeeded;
+    @NotEmpty
     private LocalDateTime timeToStart;
     private Boolean accepted;
 
