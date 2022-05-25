@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-
+@CrossOrigin
 @RestController
 @RequestMapping("/api/customer")
 public class CustomerController {
@@ -30,7 +30,7 @@ public class CustomerController {
         } else
             return ResponseEntity.notFound().build();
     }
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+
     @PutMapping()
     public ResponseEntity<CustomerDto> save(@Valid @RequestBody Customer customer) {
 

@@ -15,7 +15,6 @@ public class CustomerDto {
     @NotEmpty
     private String username;
     private Boolean verified;
-    @NotEmpty
     private LocalDateTime singUpDate;
     private Long credit;
 
