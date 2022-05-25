@@ -7,7 +7,9 @@ import com.example.PhaseTwo.model.entity.dto.AdminDto;
 import com.example.PhaseTwo.model.entity.dto.ExpertDto;
 import com.example.PhaseTwo.model.entity.dto.PasswordChangingDto;
 import com.example.PhaseTwo.model.service.impl.ExpertServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -17,6 +19,8 @@ import java.util.List;
 @RequestMapping("/api/expert")
 public class ExpertController {
     private ExpertServiceImpl expertService;
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public ExpertController(ExpertServiceImpl expertService) {
         this.expertService = expertService;
@@ -33,7 +37,8 @@ public class ExpertController {
 
     @PutMapping()
     public ResponseEntity<ExpertDto> save(@Valid @RequestBody Expert expert) {
-
+        String password = bCryptPasswordEncoder.encode(expert.getPassword());
+        expert.setPassword(password);
         ExpertDto expert1 = expertService.save(expert);
         if (expert1 != null) {
             return ResponseEntity.ok(expert1);

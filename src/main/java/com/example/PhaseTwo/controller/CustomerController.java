@@ -6,17 +6,22 @@ import com.example.PhaseTwo.model.entity.dto.AdminDto;
 import com.example.PhaseTwo.model.entity.dto.CustomerDto;
 import com.example.PhaseTwo.model.entity.dto.PasswordChangingDto;
 import com.example.PhaseTwo.model.service.impl.CustomerServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+
 @CrossOrigin
 @RestController
 @RequestMapping("/api/customer")
 public class CustomerController {
     private CustomerServiceImpl customerService;
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public CustomerController(CustomerServiceImpl customerService) {
         this.customerService = customerService;
@@ -33,7 +38,8 @@ public class CustomerController {
 
     @PutMapping()
     public ResponseEntity<CustomerDto> save(@Valid @RequestBody Customer customer) {
-
+        String password=bCryptPasswordEncoder.encode(customer.getPassword());
+        customer.setPassword(password);
         CustomerDto customer1 = customerService.save(customer);
         if (customer1 != null) {
             return ResponseEntity.ok(customer1);
