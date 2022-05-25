@@ -3,18 +3,19 @@ package com.example.PhaseTwo.model.service;
 import com.example.PhaseTwo.model.entity.Expert;
 import com.example.PhaseTwo.model.entity.Services;
 import com.example.PhaseTwo.model.entity.SubService;
+import com.example.PhaseTwo.model.entity.dto.ExpertDto;
 
 import java.util.List;
 
 public interface ExpertService {
-    Expert save(Expert expert);
-    Expert update(Expert expert);
-    Expert findById(Long id);
-    Expert linkingExpertToSubService(Expert expert, SubService subService);
-    List<Expert> findingExpertsBySubService(SubService service);
+    ExpertDto save(ExpertDto expert);
+    ExpertDto update(ExpertDto expert);
+    ExpertDto findById(Long id);
+    ExpertDto linkingExpertToSubService(ExpertDto expert, SubService subService);
+    List<ExpertDto> findingExpertsBySubService(SubService service);
     void changingPassword(Long Id,String password);
-    List<Expert> findAll();
-    void delete(Expert expert);
-    List<Expert> findByOptional(String firstname,String lastname,String email,Long subServiceId);
+    List<ExpertDto> findAll();
+    void delete(ExpertDto expert);
+    List<ExpertDto> findByOptional(String firstname,String lastname,String email,Long subServiceId);
 
 }

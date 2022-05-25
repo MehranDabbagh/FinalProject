@@ -3,6 +3,7 @@ package com.example.PhaseTwo.controller;
 
 import com.example.PhaseTwo.model.entity.Expert;
 import com.example.PhaseTwo.model.entity.SubService;
+import com.example.PhaseTwo.model.entity.dto.ExpertDto;
 import com.example.PhaseTwo.model.service.impl.ExpertServiceImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,8 +20,8 @@ public class ExpertController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Expert> findById(@PathVariable("id") Long id) {
-        Expert expert = expertService.findById(id);
+    public ResponseEntity<ExpertDto> findById(@PathVariable("id") Long id) {
+        ExpertDto expert = expertService.findById(id);
         if (expert != null) {
             return ResponseEntity.ok(expert);
         } else
@@ -28,9 +29,9 @@ public class ExpertController {
     }
 
     @PutMapping()
-    public ResponseEntity<Expert> save(@RequestBody Expert expert) {
+    public ResponseEntity<ExpertDto> save(@RequestBody ExpertDto expert) {
         if (checkingInputObject(expert)) {
-            Expert expert1 = expertService.save(expert);
+            ExpertDto expert1 = expertService.save(expert);
             if (expert1 != null) {
                 return ResponseEntity.ok(expert1);
             }
@@ -39,7 +40,7 @@ public class ExpertController {
     }
 
     @PostMapping
-    public ResponseEntity<Expert> update(@RequestBody Expert customer) {
+    public ResponseEntity<ExpertDto> update(@RequestBody ExpertDto customer) {
         if (checkingInputObject(customer)) {
             expertService.update(customer);
             return ResponseEntity.ok(customer);
@@ -48,8 +49,8 @@ public class ExpertController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Expert> delete(@PathVariable("id") Long id) {
-        Expert expert = expertService.findById(id);
+    public ResponseEntity<ExpertDto> delete(@PathVariable("id") Long id) {
+        ExpertDto expert = expertService.findById(id);
         if (expert != null) {
             expertService.delete(expert);
             return ResponseEntity.ok().build();
@@ -58,9 +59,9 @@ public class ExpertController {
     }
 
     @PatchMapping("{firstname},{lastname},{email},{subServiceId}")
-    public ResponseEntity<List<Expert>> filtering(@PathVariable("firstname") String firstname, @PathVariable("lastname") String lastname,
-                                                  @PathVariable("email") String email, @PathVariable("subServiceId") Long subServiceId) {
-        List<Expert> customers = expertService.findByOptional(firstname, lastname, email, subServiceId);
+    public ResponseEntity<List<ExpertDto>> filtering(@PathVariable("firstname") String firstname, @PathVariable("lastname") String lastname,
+                                                     @PathVariable("email") String email, @PathVariable("subServiceId") Long subServiceId) {
+        List<ExpertDto> customers = expertService.findByOptional(firstname, lastname, email, subServiceId);
         if (customers.size() == 0) {
             return ResponseEntity.notFound().build();
         }
@@ -68,12 +69,12 @@ public class ExpertController {
     }
 
     @PostMapping("link/{expertId},{subServiceId}")
-    public ResponseEntity<Expert> linkingExpertToSubService(@PathVariable("expertId") Long expertId, @PathVariable("subServiceId") Long subServiceId) {
+    public ResponseEntity<ExpertDto> linkingExpertToSubService(@PathVariable("expertId") Long expertId, @PathVariable("subServiceId") Long subServiceId) {
         SubService subService = new SubService();
         subService.setId(subServiceId);
-        Expert expert = expertService.findById(expertId);
+        ExpertDto expert = expertService.findById(expertId);
         if (expert != null) {
-            Expert expert1 = expertService.linkingExpertToSubService(expert, subService);
+            ExpertDto expert1 = expertService.linkingExpertToSubService(expert, subService);
             return ResponseEntity.ok(expert1);
         }
         return ResponseEntity.badRequest().build();
@@ -81,16 +82,12 @@ public class ExpertController {
     }
 
     @GetMapping("/findAll")
-    public ResponseEntity<List<Expert>> findAll() {
+    public ResponseEntity<List<ExpertDto>> findAll() {
         return ResponseEntity.ok(expertService.findAll());
     }
 
-    private Boolean checkingInputObject(Expert expert) {
-        if (expert == null ) {
-            return false;
-        }
-        if (expert.getEmail() == null || expert.getFirstname() == null
-                || expert.getLastname() == null || !expert.passwordChecking(expert.getPassword())) {
+    private Boolean checkingInputObject(ExpertDto expert) {
+        if (expert == null) {
             return false;
         }
         return true;

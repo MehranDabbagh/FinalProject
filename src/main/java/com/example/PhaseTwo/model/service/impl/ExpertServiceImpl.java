@@ -2,7 +2,7 @@ package com.example.PhaseTwo.model.service.impl;
 
 import com.example.PhaseTwo.model.entity.Expert;
 import com.example.PhaseTwo.model.entity.SubService;
-import com.example.PhaseTwo.model.entity.Users;
+import com.example.PhaseTwo.model.entity.dto.ExpertDto;
 import com.example.PhaseTwo.model.repository.ExpertRepository;
 import com.example.PhaseTwo.model.repository.SubServiceRepository;
 import com.example.PhaseTwo.model.service.ExpertService;
@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ExpertServiceImpl implements ExpertService {
@@ -24,42 +25,42 @@ public class ExpertServiceImpl implements ExpertService {
     }
 
     @Override
-    public Expert save(Expert expert) {
-        return expertRepository.save(expert);
+    public ExpertDto save(ExpertDto expert) {
+        return convertingToDto(expertRepository.save(convertingToExpert(expert)));
     }
 
     @Override
-    public Expert update(Expert expert) {
+    public ExpertDto update(ExpertDto expert) {
 
-        return expertRepository.save(expert);
+        return convertingToDto(expertRepository.save(convertingToExpert(expert)));
     }
 
     @Override
-    public Expert findById(Long id) {
+    public ExpertDto findById(Long id) {
         Expert expert = expertRepository.findById(id).orElse(null);
         if (expert != null) {
-            return expert;
+            return convertingToDto(expert);
         }
         throw new NullPointerException("wrong id!");
     }
 
     @Override
-    public Expert linkingExpertToSubService(Expert expert, SubService subService) {
+    public ExpertDto linkingExpertToSubService(ExpertDto expert, SubService subService) {
         Expert expert1 = expertRepository.findById(expert.getId()).orElse(null);
         SubService subService1 = subServiceRepository.findById(subService.getId()).orElse(null);
         if (expert1 != null && subService1 != null) {
             expert1.getSubServices().add(subService1);
             expertRepository.save(expert1);
-            return expert1;
+            return convertingToDto(expert1);
         }
         throw new NullPointerException("wrong id!");
     }
 
     @Override
-    public List<Expert> findingExpertsBySubService(SubService service) {
+    public List<ExpertDto> findingExpertsBySubService(SubService service) {
         SubService subService = subServiceRepository.findById(service.getId()).orElse(null);
         if (subService != null) {
-            return expertRepository.findExpertBySubServicesContaining(subService);
+            return expertRepository.findExpertBySubServicesContaining(subService).stream().map(expert -> convertingToDto(expert)).collect(Collectors.toList());
         }
         throw new NullPointerException("wrong id!");
     }
@@ -76,12 +77,12 @@ public class ExpertServiceImpl implements ExpertService {
     }
 
     @Override
-    public List<Expert> findAll() {
-        return expertRepository.findAll();
+    public List<ExpertDto> findAll() {
+        return expertRepository.findAll().stream().map(expert -> convertingToDto(expert)).collect(Collectors.toList());
     }
 
     @Override
-    public void delete(Expert expert) {
+    public void delete(ExpertDto expert) {
         expertRepository.deleteById(expert.getId());
     }
 
@@ -99,7 +100,7 @@ public class ExpertServiceImpl implements ExpertService {
     }
 
     @Override
-    public List<Expert> findByOptional(String firstname, String lastname, String email, Long subServiceId) {
+    public List<ExpertDto> findByOptional(String firstname, String lastname, String email, Long subServiceId) {
         Example<Expert> experts = createExample(firstname, lastname, email);
         List<Expert> experts1 = new ArrayList<>();
         if (subServiceId != null) {
@@ -107,15 +108,33 @@ public class ExpertServiceImpl implements ExpertService {
             if (subService != null) {
                 expertRepository.findAll(experts).forEach(experts1::add);
                 experts1.stream().filter(x -> x.getSubServices().contains(subService));
-                return experts1;
+                return experts1.stream().map(expert -> convertingToDto(expert)).collect(Collectors.toList());
             }
         } else {
             expertRepository.findAll(experts).forEach(experts1::add);
-            return experts1;
+            return experts1.stream().map(expert -> convertingToDto(expert)).collect(Collectors.toList());
         }
 
         throw new NullPointerException("no expert with this conditions!");
 
+    }
+
+    public ExpertDto convertingToDto(Expert expert) {
+        ExpertDto expertDto = new ExpertDto(expert.getId(), expert.getFirstname(), expert.getLastname(), expert.getEmail(), expert.getVerified(), expert.getSingUpDate(), expert.getCredit(), expert.getImage(), expert.getPoint(), expert.getSubServices());
+        return expertDto;
+    }
+
+    public Expert convertingToExpert(ExpertDto expertDto) {
+        Expert expert = new Expert();
+        expert.setId(expertDto.getId());
+        expert.setFirstname(expertDto.getFirstName());
+        expert.setLastname(expertDto.getLastName());
+        expert.setEmail(expertDto.getEmail());
+        expert.setSingUpDate(expertDto.getSingUpDate());
+        expert.setCredit(expertDto.getCredit());
+        expert.setVerified(expertDto.getVerified());
+        expert.setRole(expertDto.getRole());
+        return expert;
     }
 
 }
