@@ -15,11 +15,7 @@ import java.util.Set;
 @Setter
 
 @Component
-public class Customer {
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long id;
-    @OneToOne
-    private Users users;
+public class Customer extends Users{
+
 
 }

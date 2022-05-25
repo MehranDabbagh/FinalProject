@@ -22,7 +22,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Customer save(Customer customer) {
-        customer.getUsers().setRole(Role.COSTUMER);
+        customer.setRole(Role.COSTUMER);
         return customerRepository.save(customer);
     }
 
@@ -34,8 +34,8 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public void changingPassword(Long Id, String password) {
         Customer customer = customerRepository.findById(Id).orElse(null);
-        if (customer != null && customer.getUsers().passwordChecking(password)) {
-            customer.getUsers().setPassword(password);
+        if (customer != null && customer.passwordChecking(password)) {
+            customer.setPassword(password);
             customerRepository.save(customer);
             return;
         }
@@ -44,11 +44,9 @@ public class CustomerServiceImpl implements CustomerService {
 
     private Example<Customer> createExample(String firstName, String lastName, String email) {
         Customer customer = new Customer();
-        Users users = new Users();
-        users.setFirstname(firstName);
-        users.setLastname(lastName);
-        users.setEmail(email);
-        customer.setUsers(users);
+        customer.setFirstname(firstName);
+        customer.setLastname(lastName);
+        customer.setEmail(email);
         ExampleMatcher matcher = ExampleMatcher.matchingAll()
                 .withIgnoreCase("firstName", "lastName", "email")
                 .withNullHandler(ExampleMatcher.NullHandler.IGNORE)

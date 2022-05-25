@@ -67,8 +67,8 @@ public class ExpertServiceImpl implements ExpertService {
     @Override
     public void changingPassword(Long Id, String password) {
         Expert expert = expertRepository.findById(Id).orElse(null);
-        if (expert != null && expert.getUsers().passwordChecking(password)) {
-            expert.getUsers().setPassword(password);
+        if (expert != null && expert.passwordChecking(password)) {
+            expert.setPassword(password);
             expertRepository.save(expert);
             return;
         }
@@ -87,11 +87,9 @@ public class ExpertServiceImpl implements ExpertService {
 
     private Example<Expert> createExample(String firstName, String lastName, String email) {
         Expert expert = new Expert();
-        Users users = new Users();
-        users.setFirstname(firstName);
-        users.setLastname(lastName);
-        users.setEmail(email);
-        expert.setUsers(users);
+        expert.setFirstname(firstName);
+        expert.setLastname(lastName);
+        expert.setEmail(email);
         ExampleMatcher matcher = ExampleMatcher.matchingAll()
                 .withIgnoreCase("firstName", "lastName", "email")
                 .withNullHandler(ExampleMatcher.NullHandler.IGNORE)

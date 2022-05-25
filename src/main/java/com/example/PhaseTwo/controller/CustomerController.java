@@ -72,11 +72,11 @@ public class CustomerController {
     }
 
     private Boolean checkingInputObject(Customer customer) {
-        if (customer == null || customer.getUsers() == null) {
+        if (customer == null ) {
             return false;
         }
-        if (customer.getUsers().getEmail() == null || customer.getUsers().getFirstname() == null
-                || customer.getUsers().getLastname() == null || !customer.getUsers().passwordChecking(customer.getUsers().getPassword())) {
+        if (customer.getEmail() == null || customer.getFirstname() == null
+                || customer.getLastname() == null || !customer.passwordChecking(customer.getPassword())) {
             return false;
         }
         return true;

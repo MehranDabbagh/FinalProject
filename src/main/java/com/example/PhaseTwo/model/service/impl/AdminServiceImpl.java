@@ -55,8 +55,8 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public void changingPassword(Long Id, String password) {
         Admin admin = adminRepository.findById(Id).orElse(null);
-        if (admin != null && admin.getUsers().passwordChecking(password)) {
-            admin.getUsers().setPassword(password);
+        if (admin != null && admin.passwordChecking(password)) {
+            admin.setPassword(password);
             adminRepository.save(admin);
         }
         throw new NullPointerException("there is no admin with this id!");

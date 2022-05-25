@@ -14,10 +14,6 @@ import javax.persistence.*;
 @Setter
 @Component
 @NoArgsConstructor
-public class Admin {
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long id;
-    @OneToOne
-    private Users users;
+public class Admin extends Users {
+
 }

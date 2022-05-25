@@ -86,11 +86,11 @@ public class ExpertController {
     }
 
     private Boolean checkingInputObject(Expert expert) {
-        if (expert == null || expert.getUsers() == null) {
+        if (expert == null ) {
             return false;
         }
-        if (expert.getUsers().getEmail() == null || expert.getUsers().getFirstname() == null
-                || expert.getUsers().getLastname() == null || !expert.getUsers().passwordChecking(expert.getUsers().getPassword())) {
+        if (expert.getEmail() == null || expert.getFirstname() == null
+                || expert.getLastname() == null || !expert.passwordChecking(expert.getPassword())) {
             return false;
         }
         return true;
