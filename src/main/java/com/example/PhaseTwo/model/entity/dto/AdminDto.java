@@ -13,18 +13,18 @@ public class AdminDto {
     private String lastName;
     private Role role;
     @NotEmpty
-    private String email;
+    private String username;
     private Boolean verified;
     @NotEmpty
     private LocalDateTime singUpDate;
     private Long credit;
 
-    public AdminDto(Long id, String firstName, String lastName, String email, Boolean verified, LocalDateTime singUpDate, Long credit) {
+    public AdminDto(Long id, String firstName, String lastName, String username, Boolean verified, LocalDateTime singUpDate, Long credit) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.role = Role.ADMIN;
-        this.email = email;
+        this.role = Role.ROLE_ADMIN;
+        this.username = username;
         this.verified = verified;
         this.singUpDate = singUpDate;
         this.credit = credit;
@@ -62,12 +62,12 @@ public class AdminDto {
         this.role = role;
     }
 
-    public String getEmail() {
-        return email;
+    public String getUsername() {
+        return username;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public Boolean getVerified() {

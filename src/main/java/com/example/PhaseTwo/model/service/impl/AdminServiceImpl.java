@@ -1,7 +1,6 @@
 package com.example.PhaseTwo.model.service.impl;
 
 import com.example.PhaseTwo.model.entity.Admin;
-import com.example.PhaseTwo.model.entity.Customer;
 import com.example.PhaseTwo.model.entity.dto.AdminDto;
 import com.example.PhaseTwo.model.repository.AdminRepository;
 import com.example.PhaseTwo.model.service.AdminService;
@@ -59,7 +58,7 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public void changingPassword(Long Id, String password) {
         Admin admin = adminRepository.findById(Id).orElse(null);
-        if (admin != null && admin.passwordChecking(password)) {
+        if (admin != null) {
             admin.setPassword(password);
             adminRepository.save(admin);
         }
@@ -67,7 +66,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     public AdminDto convertingToDto(Admin admin) {
-        AdminDto adminDto = new AdminDto(admin.getId(), admin.getFirstname(), admin.getLastname(), admin.getEmail(), admin.getVerified(), admin.getSingUpDate(), admin.getCredit());
+        AdminDto adminDto = new AdminDto(admin.getId(), admin.getFirstname(), admin.getLastname(), admin.getUsername(), admin.getVerified(), admin.getSingUpDate(), admin.getCredit());
         return adminDto;
     }
 
@@ -76,7 +75,7 @@ public class AdminServiceImpl implements AdminService {
         admin.setId(adminDto.getId());
         admin.setFirstname(adminDto.getFirstName());
         admin.setLastname(adminDto.getLastName());
-        admin.setEmail(adminDto.getEmail());
+        admin.setUsername(adminDto.getUsername());
         admin.setSingUpDate(adminDto.getSingUpDate());
         admin.setCredit(adminDto.getCredit());
         admin.setVerified(adminDto.getVerified());

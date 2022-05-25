@@ -4,6 +4,7 @@ package com.example.PhaseTwo.controller;
 import com.example.PhaseTwo.model.entity.Bid;
 import com.example.PhaseTwo.model.service.impl.BidServiceImpl;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -27,7 +28,7 @@ public class BidController {
         } else
             return ResponseEntity.notFound().build();
     }
-
+    @PreAuthorize("hasRole('ROLE_EXPERT')")
     @PutMapping()
     public ResponseEntity<Bid> save(@Valid @RequestBody Bid bid) {
             Bid bid1 = bidService.save(bid, bid.getExpert(), bid.getOrders());
@@ -36,7 +37,7 @@ public class BidController {
             }
         return ResponseEntity.badRequest().build();
     }
-
+    @PreAuthorize("hasRole('ROLE_EXPERT')")
     @PostMapping
     public ResponseEntity<Bid> update(@Valid @RequestBody Bid bid) {
 
@@ -44,7 +45,7 @@ public class BidController {
             return ResponseEntity.ok(bid);
 
     }
-
+    @PreAuthorize("hasRole('ROLE_EXPERT')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Bid> delete(@PathVariable("id") Long id) {
         Bid bid = bidService.findById(id);

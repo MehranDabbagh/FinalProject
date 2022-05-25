@@ -4,6 +4,7 @@ package com.example.PhaseTwo.controller;
 import com.example.PhaseTwo.model.entity.Orders;
 import com.example.PhaseTwo.model.service.impl.OrderServiceImpl;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -28,7 +29,7 @@ public class OrdersController {
 
             return ResponseEntity.notFound().build();
     }
-
+    @PreAuthorize("hasRole('ROLE_CUSTOMER')")
     @PutMapping()
     public ResponseEntity<Orders> save(@Valid @RequestBody Orders orders) {
 
@@ -39,7 +40,7 @@ public class OrdersController {
 
         return ResponseEntity.badRequest().build();
     }
-
+    @PreAuthorize("hasRole('ROLE_CUSTOMER')")
     @PostMapping
     public ResponseEntity<Orders> update(@Valid @RequestBody Orders orders) {
 
@@ -47,7 +48,7 @@ public class OrdersController {
             return ResponseEntity.ok(orders);
 
     }
-
+    @PreAuthorize("hasRole('ROLE_CUSTOMER')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Orders> delete(@PathVariable("id") Long id) {
         Orders orders = orderService.findById(id);

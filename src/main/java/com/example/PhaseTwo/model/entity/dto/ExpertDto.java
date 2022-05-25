@@ -15,7 +15,7 @@ public class ExpertDto {
     private String lastName;
     private Role role;
     @NotEmpty
-    private String email;
+    private String username;
     private Boolean verified;
     @NotEmpty
     private LocalDateTime singUpDate;
@@ -24,18 +24,18 @@ public class ExpertDto {
     private Long point;
     private Set<SubService> subServices;
 
-    public ExpertDto(Long id, String firstName, String lastName, String email, Boolean verified, LocalDateTime singUpDate, Long credit, byte[] image, Long point, Set<SubService> subServices) {
+    public ExpertDto(Long id, String firstName, String lastName, String username, Boolean verified, LocalDateTime singUpDate, Long credit, byte[] image, Long point, Set<SubService> subServices) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.email = email;
+        this.username = username;
         this.verified = verified;
         this.singUpDate = singUpDate;
         this.credit = credit;
         this.image = image;
         this.point = point;
         this.subServices = subServices;
-        this.role=Role.EXPERT;
+        this.role=Role.ROLE_EXPERT;
     }
 
     public Long getId() {
@@ -70,12 +70,12 @@ public class ExpertDto {
         this.role = role;
     }
 
-    public String getEmail() {
-        return email;
+    public String getUsername() {
+        return username;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public Boolean getVerified() {

@@ -6,7 +6,7 @@ import javax.persistence.Entity;
 
 
 public enum Role {
-    ADMIN,
-    COSTUMER,
-    EXPERT
+    ROLE_ADMIN,
+    ROLE_COSTUMER,
+    ROLE_EXPERT
 }

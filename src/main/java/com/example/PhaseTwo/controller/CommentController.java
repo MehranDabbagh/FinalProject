@@ -4,6 +4,7 @@ package com.example.PhaseTwo.controller;
 import com.example.PhaseTwo.model.entity.Comment;
 import com.example.PhaseTwo.model.service.impl.CommentServiceImpl;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -27,7 +28,7 @@ public class CommentController {
         } else
             return ResponseEntity.notFound().build();
     }
-
+    @PreAuthorize("hasRole('ROLE_CUSTOMER')")
     @PutMapping()
     public ResponseEntity<Comment> save(@Valid @RequestBody Comment comment) {
 
@@ -38,7 +39,7 @@ public class CommentController {
         }
         return ResponseEntity.badRequest().build();
     }
-
+    @PreAuthorize("hasRole('ROLE_CUSTOMER')")
     @PostMapping
     public ResponseEntity<Comment> update(@Valid @RequestBody Comment comment) {
 
@@ -46,7 +47,7 @@ public class CommentController {
         return ResponseEntity.ok(comment);
 
     }
-
+    @PreAuthorize("hasRole('ROLE_CUSTOMER')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Comment> delete(@PathVariable("id") Long id) {
         Comment comment = commentService.findById(id);

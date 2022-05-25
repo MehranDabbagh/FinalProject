@@ -68,7 +68,7 @@ public class ExpertServiceImpl implements ExpertService {
     @Override
     public void changingPassword(Long Id, String password) {
         Expert expert = expertRepository.findById(Id).orElse(null);
-        if (expert != null && expert.passwordChecking(password)) {
+        if (expert != null) {
             expert.setPassword(password);
             expertRepository.save(expert);
             return;
@@ -86,11 +86,11 @@ public class ExpertServiceImpl implements ExpertService {
         expertRepository.deleteById(expert.getId());
     }
 
-    private Example<Expert> createExample(String firstName, String lastName, String email) {
+    private Example<Expert> createExample(String firstName, String lastName, String username) {
         Expert expert = new Expert();
         expert.setFirstname(firstName);
         expert.setLastname(lastName);
-        expert.setEmail(email);
+        expert.setUsername(username);
         ExampleMatcher matcher = ExampleMatcher.matchingAll()
                 .withIgnoreCase("firstName", "lastName", "email")
                 .withNullHandler(ExampleMatcher.NullHandler.IGNORE)
@@ -120,7 +120,7 @@ public class ExpertServiceImpl implements ExpertService {
     }
 
     public ExpertDto convertingToDto(Expert expert) {
-        ExpertDto expertDto = new ExpertDto(expert.getId(), expert.getFirstname(), expert.getLastname(), expert.getEmail(), expert.getVerified(), expert.getSingUpDate(), expert.getCredit(), expert.getImage(), expert.getPoint(), expert.getSubServices());
+        ExpertDto expertDto = new ExpertDto(expert.getId(), expert.getFirstname(), expert.getLastname(), expert.getUsername(), expert.getVerified(), expert.getSingUpDate(), expert.getCredit(), expert.getImage(), expert.getPoint(), expert.getSubServices());
         return expertDto;
     }
 
@@ -129,7 +129,7 @@ public class ExpertServiceImpl implements ExpertService {
         expert.setId(expertDto.getId());
         expert.setFirstname(expertDto.getFirstName());
         expert.setLastname(expertDto.getLastName());
-        expert.setEmail(expertDto.getEmail());
+        expert.setUsername(expertDto.getUsername());
         expert.setSingUpDate(expertDto.getSingUpDate());
         expert.setCredit(expertDto.getCredit());
         expert.setVerified(expertDto.getVerified());

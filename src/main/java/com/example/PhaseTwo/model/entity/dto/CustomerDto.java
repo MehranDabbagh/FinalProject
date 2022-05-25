@@ -13,20 +13,21 @@ public class CustomerDto {
     private String lastName;
     private Role role;
     @NotEmpty
-    private String email;
+    private String username;
     private Boolean verified;
     @NotEmpty
     private LocalDateTime singUpDate;
     private Long credit;
 
-    public CustomerDto(Long id, String firstName, String lastName, String email, Boolean verified, LocalDateTime singUpDate, Long credit) {
+    public CustomerDto(Long id, String firstName, String lastName, String username, Boolean verified, LocalDateTime singUpDate, Long credit) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.email = email;
+        this.username = username;
         this.verified = verified;
         this.singUpDate = singUpDate;
         this.credit = credit;
+        this.role=Role.ROLE_COSTUMER;
     }
 
     public Long getId() {
@@ -61,12 +62,12 @@ public class CustomerDto {
         this.role = role;
     }
 
-    public String getEmail() {
-        return email;
+    public String getUsername() {
+        return username;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public Boolean getVerified() {

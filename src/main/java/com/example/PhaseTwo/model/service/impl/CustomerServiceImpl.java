@@ -2,7 +2,6 @@ package com.example.PhaseTwo.model.service.impl;
 
 import com.example.PhaseTwo.model.entity.Customer;
 import com.example.PhaseTwo.model.entity.Role;
-import com.example.PhaseTwo.model.entity.Users;
 import com.example.PhaseTwo.model.entity.dto.CustomerDto;
 import com.example.PhaseTwo.model.repository.CustomerRepository;
 import com.example.PhaseTwo.model.service.CustomerService;
@@ -24,7 +23,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public CustomerDto save(Customer customer) {
-        customer.setRole(Role.COSTUMER);
+        customer.setRole(Role.ROLE_COSTUMER);
 
         Customer customer1 = customerRepository.save(customer);
         return convertingToDto(customer1);
@@ -38,7 +37,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public void changingPassword(Long Id, String password) {
         Customer customer = customerRepository.findById(Id).orElse(null);
-        if (customer != null && customer.passwordChecking(password)) {
+        if (customer != null ) {
             customer.setPassword(password);
             customerRepository.save(customer);
             return;
@@ -50,7 +49,7 @@ public class CustomerServiceImpl implements CustomerService {
         Customer customer = new Customer();
         customer.setFirstname(firstName);
         customer.setLastname(lastName);
-        customer.setEmail(email);
+        customer.setUsername(email);
         ExampleMatcher matcher = ExampleMatcher.matchingAll()
                 .withIgnoreCase("firstName", "lastName", "email")
                 .withNullHandler(ExampleMatcher.NullHandler.IGNORE)
@@ -89,7 +88,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     public CustomerDto convertingToDto(Customer customer) {
-        CustomerDto customerDto = new CustomerDto(customer.getId(), customer.getFirstname(), customer.getLastname(), customer.getEmail(), customer.getVerified(), customer.getSingUpDate(), customer.getCredit());
+        CustomerDto customerDto = new CustomerDto(customer.getId(), customer.getFirstname(), customer.getLastname(), customer.getUsername(), customer.getVerified(), customer.getSingUpDate(), customer.getCredit());
         return customerDto;
     }
 
@@ -98,7 +97,7 @@ public class CustomerServiceImpl implements CustomerService {
         customer.setId(customerDto.getId());
         customer.setFirstname(customerDto.getFirstName());
         customer.setLastname(customerDto.getLastName());
-        customer.setEmail(customerDto.getEmail());
+        customer.setUsername(customerDto.getUsername());
         customer.setSingUpDate(customerDto.getSingUpDate());
         customer.setCredit(customerDto.getCredit());
         customer.setVerified(customerDto.getVerified());

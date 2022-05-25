@@ -6,6 +6,7 @@ import com.example.PhaseTwo.model.entity.dto.CustomerDto;
 import com.example.PhaseTwo.model.entity.dto.PasswordChangingDto;
 import com.example.PhaseTwo.model.service.impl.AdminServiceImpl;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -19,7 +20,7 @@ public class AdminController {
     public AdminController(AdminServiceImpl adminService) {
         this.adminService = adminService;
     }
-
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("{id}")
     public ResponseEntity<AdminDto> findById(@PathVariable("id") Long id) {
         AdminDto customer = adminService.findById(id);
@@ -28,7 +29,7 @@ public class AdminController {
         } else
             return ResponseEntity.notFound().build();
     }
-
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping()
     public ResponseEntity<AdminDto> save(@Valid @RequestBody Admin admin) {
 
@@ -38,13 +39,13 @@ public class AdminController {
         }
         return ResponseEntity.badRequest().build();
     }
-
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping
     public ResponseEntity<AdminDto> update(@Valid @RequestBody AdminDto customer) {
         adminService.update(customer);
         return ResponseEntity.ok(customer);
     }
-
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<AdminDto> delete(@PathVariable("id") Long id) {
         AdminDto customer = adminService.findById(id);
@@ -54,12 +55,12 @@ public class AdminController {
         }
         return ResponseEntity.badRequest().build();
     }
-
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/findAll")
     public ResponseEntity<List<AdminDto>> findAll() {
         return ResponseEntity.ok(adminService.findAll());
     }
-
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/passwordChanging")
     public ResponseEntity<AdminDto> changingPassword(@Valid @RequestBody PasswordChangingDto passwordChangingDto) {
         adminService.changingPassword(passwordChangingDto.getId(), passwordChangingDto.getPassword());
