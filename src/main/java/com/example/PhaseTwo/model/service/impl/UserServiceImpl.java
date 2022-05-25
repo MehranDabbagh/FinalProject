@@ -19,14 +19,12 @@ public class UserServiceImpl implements UserService {
 
     }
 
-
-
     @Override
     public Boolean verification(Long id) {
         Users users = usersRepository.findById(id).orElse(null);
         if (users != null) {
             return users.getVerified();
         }
-        return false;
+        throw new NullPointerException("wrong id!");
     }
 }

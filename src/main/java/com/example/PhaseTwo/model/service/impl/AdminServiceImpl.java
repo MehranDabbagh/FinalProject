@@ -17,17 +17,29 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public Admin save(Admin admin) {
-        return adminRepository.save(admin);
+        Admin admin1=adminRepository.save(admin);
+        if(admin1!=null) {
+            return admin1;
+        }
+        throw new NullPointerException("there is no admin with this id!");
     }
 
     @Override
     public Admin update(Admin admin) {
-        return adminRepository.save(admin);
+        Admin admin1=adminRepository.save(admin);
+        if(admin1!=null) {
+            return admin1;
+        }
+        throw new NullPointerException("there is no admin with this id!");
     }
 
     @Override
     public Admin findById(Long id) {
-        return adminRepository.findById(id).orElse(null);
+        Admin admin=adminRepository.findById(id).orElse(null);
+        if(admin!=null) {
+            return admin;
+        }
+        throw new NullPointerException("there is no admin with this id!");
     }
 
     @Override
@@ -47,5 +59,6 @@ public class AdminServiceImpl implements AdminService {
             admin.getUsers().setPassword(password);
             adminRepository.save(admin);
         }
+        throw new NullPointerException("there is no admin with this id!");
     }
 }

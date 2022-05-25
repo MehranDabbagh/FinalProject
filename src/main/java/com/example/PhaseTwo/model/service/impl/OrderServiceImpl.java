@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.InputMismatchException;
 import java.util.List;
 
 @Service
@@ -27,10 +28,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Orders buildingOrder(Orders orders, Customer customer) {
-        if (orders == null) {
-            return null;
-        } else if (orders.getRequiredDate().isAfter(LocalDateTime.now()) || orders.getId() != null || orders.getAddress() == null || orders.getPrice() == null) {
-            return null;
+
+        if (orders.getRequiredDate().isAfter(LocalDateTime.now())) {
+            throw new InputMismatchException("wrong date!");
         } else {
             orders.setSingUpDate(LocalDateTime.now());
             orders.setStatus(Status.Bid);
@@ -43,7 +43,11 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Orders findById(Long id) {
-        return ordersRepository.findById(id).orElse(null);
+        Orders orders = ordersRepository.findById(id).orElse(null);
+        if (orders != null) {
+            return orders;
+        }
+        throw new NullPointerException("wrong id!");
     }
 
     @Override

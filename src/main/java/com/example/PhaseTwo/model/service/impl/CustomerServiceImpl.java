@@ -37,7 +37,9 @@ public class CustomerServiceImpl implements CustomerService {
         if (customer != null && customer.getUsers().passwordChecking(password)) {
             customer.getUsers().setPassword(password);
             customerRepository.save(customer);
+            return;
         }
+        throw new NullPointerException("wrong id!");
     }
 
     private Example<Customer> createExample(String firstName, String lastName, String email) {
@@ -57,7 +59,11 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Customer findById(Long id) {
-        return customerRepository.findById(id).orElse(null);
+        Customer customer = customerRepository.findById(id).orElse(null);
+        if (customer != null) {
+            return customer;
+        }
+        throw new NullPointerException("wrong id!");
     }
 
     @Override

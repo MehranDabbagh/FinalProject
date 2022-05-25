@@ -21,10 +21,10 @@ public class SubServiceServiceImpl implements SubServiceService {
 
     @Override
     public SubService save(SubService subService) {
-        Services services=serviceRepository.findById(subService.getServicesCategory().getId()).orElse(null);
-            if(services!=null){
-                return subServiceRepository.save(subService);
-            }else return null;
+        Services services = serviceRepository.findById(subService.getServicesCategory().getId()).orElse(null);
+        if (services != null) {
+            return subServiceRepository.save(subService);
+        } else throw new NullPointerException("no parent service for this subService!");
     }
 
     @Override
@@ -34,7 +34,11 @@ public class SubServiceServiceImpl implements SubServiceService {
 
     @Override
     public SubService findById(Long id) {
-        return subServiceRepository.findById(id).orElse(null);
+        SubService subService = subServiceRepository.findById(id).orElse(null);
+        if (subService != null) {
+            return subService;
+        }
+        throw new NullPointerException("wrong id!");
     }
 
     @Override

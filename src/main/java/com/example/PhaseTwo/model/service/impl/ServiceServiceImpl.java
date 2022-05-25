@@ -27,7 +27,11 @@ public class ServiceServiceImpl implements ServiceService {
 
     @Override
     public Services findById(Long id) {
-        return serviceRepository.findById(id).orElse(null);
+        Services services = serviceRepository.findById(id).orElse(null);
+        if (services != null) {
+            return services;
+        }
+        throw new NullPointerException("wrong id!");
     }
 
     @Override

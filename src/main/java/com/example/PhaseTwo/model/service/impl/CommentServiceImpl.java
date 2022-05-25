@@ -3,6 +3,7 @@ package com.example.PhaseTwo.model.service.impl;
 import com.example.PhaseTwo.model.entity.Comment;
 import com.example.PhaseTwo.model.repository.CommentRepository;
 import com.example.PhaseTwo.model.service.CommentService;
+import org.hibernate.sql.Update;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,7 +18,11 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public Comment findById(Long id) {
-        return commentRepository.findById(id).orElse(null);
+        Comment comment=commentRepository.findById(id).orElse(null);
+        if(comment!=null) {
+            return comment;
+        }
+        throw new NullPointerException("wrong id!");
     }
 
     @Override
@@ -26,7 +31,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public Comment update(Comment comment) {
+    public Comment update(Comment comment){
         return commentRepository.save(comment);
     }
 

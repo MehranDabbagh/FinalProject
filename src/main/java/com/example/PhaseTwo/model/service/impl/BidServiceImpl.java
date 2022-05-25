@@ -9,6 +9,7 @@ import com.example.PhaseTwo.model.service.BidService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.InputMismatchException;
 import java.util.List;
 
 @Service
@@ -25,21 +26,14 @@ public class BidServiceImpl implements BidService {
 
     @Override
     public Bid save(Bid bid, Expert expert, Orders orders) {
-        if (bid == null) {
-            return null;
-        } else if (bid.getBidDate() == null ||
-                bid.getHoursNeeded() == null ||
-                bid.getTimeToStart() == null ||
-                bid.getTimeToStart().isBefore(LocalDateTime.now())) {
-            return null;
-        }
-        if (expert == null || orders == null) {
-            return null;
-        } else if (expert.getId() < 1 || orders.getId() < 1) {
-            return null;
+        if (bid.getTimeToStart().isBefore(LocalDateTime.now())) {
+            throw new InputMismatchException("date is already gone!");
         }
         Expert expert1 = expertService.findById(expert.getId());
         Orders orders1 = orderService.findById(orders.getId());
+        if (expert1 == null || orders1 == null) {
+            throw new NullPointerException("wrong id!");
+        }
         bid.setExpert(expert1);
         bid.setOrders(orders1);
         Bid bid1 = bidRepository.save(bid);
@@ -48,7 +42,12 @@ public class BidServiceImpl implements BidService {
 
     @Override
     public Bid findById(Long id) {
-        return bidRepository.findById(id).orElse(null);
+        Bid bid = bidRepository.findById(id).orElse(null);
+        if (bid != null) {
+            return bid;
+        }
+        throw new NullPointerException("wrong id!");
+
     }
 
     @Override
@@ -80,12 +79,10 @@ public class BidServiceImpl implements BidService {
     public void selectingFromBids(Long bidId, Long orderId) {
         Bid bid = findById(bidId);
         if (bid == null) {
-            System.out.println("there is no bid with this id!");
-            return;
+            throw new NullPointerException("wrong id!");
         }
         if (bid.getOrders().getId() != orderId) {
-            System.out.println("this bid is not for this order!");
-            return;
+            throw new InputMismatchException("these two id dose not match!");
         }
         bid.setAccepted(true);
         orderService.findById(orderId).setStatus(Status.OnTheWay);

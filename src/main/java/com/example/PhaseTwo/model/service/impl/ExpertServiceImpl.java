@@ -36,7 +36,11 @@ public class ExpertServiceImpl implements ExpertService {
 
     @Override
     public Expert findById(Long id) {
-        return expertRepository.findById(id).orElse(null);
+        Expert expert = expertRepository.findById(id).orElse(null);
+        if (expert != null) {
+            return expert;
+        }
+        throw new NullPointerException("wrong id!");
     }
 
     @Override
@@ -48,7 +52,7 @@ public class ExpertServiceImpl implements ExpertService {
             expertRepository.save(expert1);
             return expert1;
         }
-        return null;
+        throw new NullPointerException("wrong id!");
     }
 
     @Override
@@ -57,7 +61,7 @@ public class ExpertServiceImpl implements ExpertService {
         if (subService != null) {
             return expertRepository.findExpertBySubServicesContaining(subService);
         }
-        return null;
+        throw new NullPointerException("wrong id!");
     }
 
     @Override
@@ -66,7 +70,9 @@ public class ExpertServiceImpl implements ExpertService {
         if (expert != null && expert.getUsers().passwordChecking(password)) {
             expert.getUsers().setPassword(password);
             expertRepository.save(expert);
+            return;
         }
+        throw new NullPointerException("wrong id!");
     }
 
     @Override
@@ -78,9 +84,10 @@ public class ExpertServiceImpl implements ExpertService {
     public void delete(Expert expert) {
         expertRepository.deleteById(expert.getId());
     }
+
     private Example<Expert> createExample(String firstName, String lastName, String email) {
         Expert expert = new Expert();
-        Users users=new Users();
+        Users users = new Users();
         users.setFirstname(firstName);
         users.setLastname(lastName);
         users.setEmail(email);
@@ -92,23 +99,24 @@ public class ExpertServiceImpl implements ExpertService {
         Example<Expert> usersExample = Example.of(expert, matcher);
         return usersExample;
     }
+
     @Override
     public List<Expert> findByOptional(String firstname, String lastname, String email, Long subServiceId) {
-        Example<Expert> experts=createExample(firstname,lastname,email);
-        List<Expert> experts1=new ArrayList<>();
-        if(subServiceId!=null) {
+        Example<Expert> experts = createExample(firstname, lastname, email);
+        List<Expert> experts1 = new ArrayList<>();
+        if (subServiceId != null) {
             SubService subService = subServiceRepository.findById(subServiceId).orElse(null);
-            if(subService!=null) {
+            if (subService != null) {
                 expertRepository.findAll(experts).forEach(experts1::add);
                 experts1.stream().filter(x -> x.getSubServices().contains(subService));
                 return experts1;
             }
-        }else {
+        } else {
             expertRepository.findAll(experts).forEach(experts1::add);
             return experts1;
         }
 
-        return null;
+        throw new NullPointerException("no expert with this conditions!");
 
     }
 
