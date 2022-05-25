@@ -23,10 +23,10 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public CustomerDto save(CustomerDto customer) {
+    public CustomerDto save(Customer customer) {
         customer.setRole(Role.COSTUMER);
 
-        Customer customer1 = customerRepository.save(convertingToCustomer(customer));
+        Customer customer1 = customerRepository.save(customer);
         return convertingToDto(customer1);
     }
 

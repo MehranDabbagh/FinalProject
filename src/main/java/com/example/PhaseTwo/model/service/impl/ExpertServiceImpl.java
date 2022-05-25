@@ -25,8 +25,8 @@ public class ExpertServiceImpl implements ExpertService {
     }
 
     @Override
-    public ExpertDto save(ExpertDto expert) {
-        return convertingToDto(expertRepository.save(convertingToExpert(expert)));
+    public ExpertDto save(Expert expert) {
+        return convertingToDto(expertRepository.save(expert));
     }
 
     @Override

@@ -29,7 +29,7 @@ public class CustomerController {
     }
 
     @PutMapping()
-    public ResponseEntity<CustomerDto> save(@Valid @RequestBody CustomerDto customer) {
+    public ResponseEntity<CustomerDto> save(@Valid @RequestBody Customer customer) {
 
             CustomerDto customer1 = customerService.save(customer);
             if (customer1 != null) {

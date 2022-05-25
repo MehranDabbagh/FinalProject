@@ -9,7 +9,7 @@ import com.example.PhaseTwo.model.entity.dto.CustomerDto;
 import java.util.List;
 
 public interface CustomerService {
-    CustomerDto save(CustomerDto customer);
+    CustomerDto save(Customer customer);
     void update(CustomerDto customer);
     void changingPassword(Long Id,String password);
     CustomerDto findById(Long id);

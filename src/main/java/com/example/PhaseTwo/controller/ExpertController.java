@@ -8,6 +8,7 @@ import com.example.PhaseTwo.model.service.impl.ExpertServiceImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -29,23 +30,20 @@ public class ExpertController {
     }
 
     @PutMapping()
-    public ResponseEntity<ExpertDto> save(@RequestBody ExpertDto expert) {
-        if (checkingInputObject(expert)) {
+    public ResponseEntity<ExpertDto> save(@Valid @RequestBody Expert expert) {
+
             ExpertDto expert1 = expertService.save(expert);
             if (expert1 != null) {
                 return ResponseEntity.ok(expert1);
-            }
+
         }
         return ResponseEntity.badRequest().build();
     }
 
     @PostMapping
-    public ResponseEntity<ExpertDto> update(@RequestBody ExpertDto customer) {
-        if (checkingInputObject(customer)) {
+    public ResponseEntity<ExpertDto> update(@Valid @RequestBody ExpertDto customer) {
             expertService.update(customer);
             return ResponseEntity.ok(customer);
-        }
-        return ResponseEntity.badRequest().build();
     }
 
     @DeleteMapping("/{id}")
@@ -86,11 +84,5 @@ public class ExpertController {
         return ResponseEntity.ok(expertService.findAll());
     }
 
-    private Boolean checkingInputObject(ExpertDto expert) {
-        if (expert == null) {
-            return false;
-        }
-        return true;
 
-    }
 }

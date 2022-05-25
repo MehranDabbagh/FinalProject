@@ -8,7 +8,7 @@ import com.example.PhaseTwo.model.entity.dto.ExpertDto;
 import java.util.List;
 
 public interface ExpertService {
-    ExpertDto save(ExpertDto expert);
+    ExpertDto save(Expert expert);
     ExpertDto update(ExpertDto expert);
     ExpertDto findById(Long id);
     ExpertDto linkingExpertToSubService(ExpertDto expert, SubService subService);
