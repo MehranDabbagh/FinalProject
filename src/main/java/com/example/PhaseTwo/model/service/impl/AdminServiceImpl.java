@@ -19,8 +19,8 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public AdminDto save(AdminDto admin) {
-        Admin admin1=adminRepository.save(convertingToAdmin(admin));
+    public AdminDto save(Admin admin) {
+        Admin admin1=adminRepository.save(admin);
         if(admin1!=null) {
             return convertingToDto(admin1);
         }
