@@ -1,9 +1,6 @@
 package com.example.PhaseTwo.model.service;
 
-import com.example.PhaseTwo.model.entity.Bid;
-import com.example.PhaseTwo.model.entity.Expert;
-import com.example.PhaseTwo.model.entity.Services;
-import com.example.PhaseTwo.model.entity.SubService;
+import com.example.PhaseTwo.model.entity.*;
 import com.example.PhaseTwo.model.entity.dto.ExpertDto;
 
 import java.util.List;
@@ -19,4 +16,5 @@ public interface ExpertService {
     void delete(ExpertDto expert);
     List<ExpertDto> findByOptional(String firstname,String lastname,String email,Long subServiceId);
     List<Bid> findBids(Long expertId);
+    List<Orders> MatchingOrders(Long expertId);
 }

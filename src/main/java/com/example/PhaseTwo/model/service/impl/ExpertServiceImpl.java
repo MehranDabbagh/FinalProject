@@ -2,10 +2,12 @@ package com.example.PhaseTwo.model.service.impl;
 
 import com.example.PhaseTwo.model.entity.Bid;
 import com.example.PhaseTwo.model.entity.Expert;
+import com.example.PhaseTwo.model.entity.Orders;
 import com.example.PhaseTwo.model.entity.SubService;
 import com.example.PhaseTwo.model.entity.dto.ExpertDto;
 import com.example.PhaseTwo.model.repository.BidRepository;
 import com.example.PhaseTwo.model.repository.ExpertRepository;
+import com.example.PhaseTwo.model.repository.OrdersRepository;
 import com.example.PhaseTwo.model.repository.SubServiceRepository;
 import com.example.PhaseTwo.model.service.ExpertService;
 import org.springframework.data.domain.Example;
@@ -13,6 +15,7 @@ import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,12 +23,14 @@ import java.util.stream.Collectors;
 public class ExpertServiceImpl implements ExpertService {
     private ExpertRepository expertRepository;
     private SubServiceRepository subServiceRepository;
-   private BidRepository bidRepository;
+    private BidRepository bidRepository;
+    private OrdersRepository ordersRepository;
 
-    public ExpertServiceImpl(ExpertRepository expertRepository, SubServiceRepository subServiceRepository, BidRepository bidRepository) {
+    public ExpertServiceImpl(ExpertRepository expertRepository, SubServiceRepository subServiceRepository, BidRepository bidRepository, OrdersRepository ordersRepository) {
         this.expertRepository = expertRepository;
         this.subServiceRepository = subServiceRepository;
         this.bidRepository = bidRepository;
+        this.ordersRepository = ordersRepository;
     }
 
     @Override
@@ -126,6 +131,19 @@ public class ExpertServiceImpl implements ExpertService {
     @Override
     public List<Bid> findBids(Long expertId) {
         return bidRepository.findByExpertId(expertId);
+    }
+
+    @Override
+    public List<Orders> MatchingOrders(Long expertId) {
+        Expert expert = expertRepository.findById(expertId).orElse(null);
+        if (expert != null) {
+            List<Orders> orders = expert.getSubServices()
+                    .stream()
+                    .map(x -> ordersRepository.findBySubService(x))
+                    .flatMap(List::stream)
+                    .collect(Collectors.toList());
+        }
+        throw new NullPointerException("not found!");
     }
 
     public ExpertDto convertingToDto(Expert expert) {

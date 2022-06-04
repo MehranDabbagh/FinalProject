@@ -3,6 +3,7 @@ package com.example.PhaseTwo.controller;
 
 import com.example.PhaseTwo.model.entity.Bid;
 import com.example.PhaseTwo.model.entity.Expert;
+import com.example.PhaseTwo.model.entity.Orders;
 import com.example.PhaseTwo.model.entity.SubService;
 import com.example.PhaseTwo.model.entity.dto.AdminDto;
 import com.example.PhaseTwo.model.entity.dto.ExpertDto;
@@ -101,11 +102,21 @@ public class ExpertController {
         expertService.changingPassword(passwordChangingDto.getId(), passwordChangingDto.getPassword());
         return ResponseEntity.ok().build();
     }
+
     @GetMapping("/History")
     public ResponseEntity<List<Bid>> findByExpertId(@Valid Long id) {
         List<Bid> bids = expertService.findBids(id);
         if (bids != null) {
             return ResponseEntity.ok(bids);
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    @GetMapping("/MatchingOrders")
+    public ResponseEntity<List<Orders>> findMatchingOrders(@Valid Long Id) {
+        List<Orders> orders = expertService.MatchingOrders(Id);
+        if (orders != null) {
+            return ResponseEntity.ok(orders);
         }
         return ResponseEntity.notFound().build();
     }
