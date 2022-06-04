@@ -30,6 +30,7 @@ public class Users implements UserDetails {
     @NotEmpty
     @Size(min = 8)
     private String password;
+    @Enumerated(EnumType.STRING)
     private Role role;
     @NotEmpty
     private String firstname;
