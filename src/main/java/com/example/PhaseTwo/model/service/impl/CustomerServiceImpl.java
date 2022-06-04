@@ -1,17 +1,20 @@
 package com.example.PhaseTwo.model.service.impl;
 
-import com.example.PhaseTwo.model.entity.Customer;
-import com.example.PhaseTwo.model.entity.Orders;
-import com.example.PhaseTwo.model.entity.Role;
+import com.example.PhaseTwo.model.entity.*;
 import com.example.PhaseTwo.model.entity.dto.CustomerDto;
+import com.example.PhaseTwo.model.entity.dto.PayingWithCredit;
+import com.example.PhaseTwo.model.repository.BidRepository;
 import com.example.PhaseTwo.model.repository.CustomerRepository;
+import com.example.PhaseTwo.model.repository.ExpertRepository;
 import com.example.PhaseTwo.model.repository.OrdersRepository;
 import com.example.PhaseTwo.model.service.CustomerService;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
+import org.yaml.snakeyaml.util.EnumUtils;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,10 +22,14 @@ import java.util.stream.Collectors;
 public class CustomerServiceImpl implements CustomerService {
     private CustomerRepository customerRepository;
     private OrdersRepository ordersRepository;
+    private BidRepository bidRepository;
+    private ExpertRepository expertRepository;
 
-    public CustomerServiceImpl(CustomerRepository customerRepository, OrdersRepository ordersRepository) {
+    public CustomerServiceImpl(CustomerRepository customerRepository, OrdersRepository ordersRepository, BidRepository bidRepository, ExpertRepository expertRepository) {
         this.customerRepository = customerRepository;
         this.ordersRepository = ordersRepository;
+        this.bidRepository = bidRepository;
+        this.expertRepository = expertRepository;
     }
 
     @Override
@@ -94,6 +101,42 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public List<Orders> findOrders(Long CustomerId) {
         return ordersRepository.findByCustomerId(CustomerId);
+    }
+
+    @Override
+    public void finishingOrder(Long customerId, Long orderId) {
+        Orders orders = ordersRepository.findById(orderId).orElse(null);
+        if (orders == null) {
+            throw new NullPointerException("order not found!");
+        }
+        if (orders.getCustomer().getId() != customerId) {
+            throw new NullPointerException("order and customer dose not match!");
+        }
+        orders.setStatus(Status.Done);
+        ordersRepository.save(orders);
+
+    }
+
+    @Override
+    public void payingWithCredit(PayingWithCredit payingWithCredit) {
+        Orders orders = ordersRepository.findById(payingWithCredit.getOrderId()).orElse(null);
+        if (orders == null || orders.getCustomer().getId() != payingWithCredit.getCustomerId()) {
+            throw new NullPointerException("bad request!");
+        }
+        Bid bid = bidRepository.findById(payingWithCredit.getBidId()).orElse(null);
+        if (bid == null || bid.getExpert().getId() != payingWithCredit.getExpertId() || bid.getOffer() != payingWithCredit.getPrice()) {
+            throw new NullPointerException("bad request!");
+        }
+        Customer customer = customerRepository.findById(payingWithCredit.getCustomerId()).orElse(null);
+        if (customer.getCredit() < payingWithCredit.getPrice()) {
+            throw new InputMismatchException("not enough money!");
+        }
+        customer.setCredit(customer.getCredit() - payingWithCredit.getPrice());
+        Expert expert = expertRepository.findById(payingWithCredit.getExpertId()).orElse(null);
+        expert.setCredit(expert.getCredit() + payingWithCredit.getPrice());
+        expertRepository.save(expert);
+        customerRepository.save(customer);
+
     }
 
     public CustomerDto convertingToDto(Customer customer) {

@@ -7,6 +7,7 @@ import com.example.PhaseTwo.model.entity.SubService;
 import com.example.PhaseTwo.model.entity.dto.AdminDto;
 import com.example.PhaseTwo.model.entity.dto.CustomerDto;
 import com.example.PhaseTwo.model.entity.dto.PasswordChangingDto;
+import com.example.PhaseTwo.model.entity.dto.PayingWithCredit;
 import com.example.PhaseTwo.model.service.impl.CustomerServiceImpl;
 import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -94,5 +95,15 @@ public class CustomerController {
             return ResponseEntity.ok(orders);
         }
         return ResponseEntity.notFound().build();
+    }
+    @PostMapping("/orderFinishing")
+    public ResponseEntity<Object> orderFinishing(@Valid @RequestBody Orders orders){
+        customerService.finishingOrder(orders.getCustomer().getId(),orders.getId());
+        return ResponseEntity.ok().build();
+    }
+    @PostMapping("/payingWithCredit")
+    public ResponseEntity<Object> payingWithCredit(@Valid PayingWithCredit payingWithCredit){
+        customerService.payingWithCredit(payingWithCredit);
+        return ResponseEntity.ok().build();
     }
 }

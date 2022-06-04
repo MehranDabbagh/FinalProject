@@ -13,7 +13,6 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
-
 @Component
 public class Customer extends Users{
 
