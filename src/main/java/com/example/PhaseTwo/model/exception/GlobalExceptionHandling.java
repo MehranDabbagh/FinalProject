@@ -12,16 +12,19 @@ import java.util.InputMismatchException;
 public class GlobalExceptionHandling {
     @ExceptionHandler(value = NullPointerException.class)
     public ResponseEntity<Object> nullPointHandler(Exception ex, WebRequest request) {
+        System.out.println(ex.getStackTrace());
         return ResponseEntity.ok(null);
     }
 
     @ExceptionHandler(value = InputMismatchException.class)
     public ResponseEntity<Object> inputMismatch(Exception ex, WebRequest request) {
+        System.out.println(ex.getStackTrace());
         return ResponseEntity.notFound().build();
     }
 
     @ExceptionHandler(value = RuntimeException.class)
     public ResponseEntity<Object> allHandler(Exception ex, WebRequest request) {
+        System.out.println(ex.getStackTrace());
         return ResponseEntity.ok(null);
     }
 }

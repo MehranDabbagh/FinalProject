@@ -10,9 +10,13 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface BidRepository extends JpaRepository<Bid,Long> {
+public interface BidRepository extends JpaRepository<Bid, Long> {
     @Query("select t from Bid t where t.orders.id=:id order by t.offer asc ")
     List<Bid> sortByPrice(@Param("id") Long id);
+
     @Query("select t from Bid t where t.orders.id=:id order by t.expert.point desc ")
     List<Bid> sortByExpertPoint(@Param("id") Long id);
+
+    @Query("select t from Bid  t where t.expert.id=:id and t.accepted=true ")
+    List<Bid> findByExpertId(@Param("id") Long expertId);
 }

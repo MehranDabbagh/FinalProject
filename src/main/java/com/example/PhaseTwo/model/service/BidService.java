@@ -9,13 +9,20 @@ import java.util.List;
 
 public interface BidService {
     Bid save(Bid bid, Expert expert, Orders orders);
-   Bid findById(Long id);
+
+    Bid findById(Long id);
 
     Bid update(Bid bid);
 
     List<Bid> findAll();
+
     void delete(Bid bid);
+
     List<Bid> sortByPrice(Long id);
+
     List<Bid> sortByExpertPoint(Long id);
-    void selectingFromBids(Long bidId,Long orderId);
+
+    void selectingFromBids(Long bidId, Long orderId);
+
+
 }

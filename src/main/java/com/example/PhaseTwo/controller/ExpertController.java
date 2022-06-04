@@ -1,12 +1,15 @@
 package com.example.PhaseTwo.controller;
 
 
+import com.example.PhaseTwo.model.entity.Bid;
 import com.example.PhaseTwo.model.entity.Expert;
 import com.example.PhaseTwo.model.entity.SubService;
 import com.example.PhaseTwo.model.entity.dto.AdminDto;
 import com.example.PhaseTwo.model.entity.dto.ExpertDto;
 import com.example.PhaseTwo.model.entity.dto.PasswordChangingDto;
+import com.example.PhaseTwo.model.service.impl.BidServiceImpl;
 import com.example.PhaseTwo.model.service.impl.ExpertServiceImpl;
+import com.example.PhaseTwo.model.service.impl.OrderServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -19,6 +22,8 @@ import java.util.List;
 @RequestMapping("/api/expert")
 public class ExpertController {
     private ExpertServiceImpl expertService;
+
+
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
@@ -95,6 +100,14 @@ public class ExpertController {
     public ResponseEntity<ExpertDto> changingPassword(@Valid @RequestBody PasswordChangingDto passwordChangingDto) {
         expertService.changingPassword(passwordChangingDto.getId(), passwordChangingDto.getPassword());
         return ResponseEntity.ok().build();
+    }
+    @GetMapping("/History")
+    public ResponseEntity<List<Bid>> findByExpertId(@Valid Long id) {
+        List<Bid> bids = expertService.findBids(id);
+        if (bids != null) {
+            return ResponseEntity.ok(bids);
+        }
+        return ResponseEntity.notFound().build();
     }
 
 }

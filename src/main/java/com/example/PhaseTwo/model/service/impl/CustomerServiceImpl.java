@@ -1,9 +1,11 @@
 package com.example.PhaseTwo.model.service.impl;
 
 import com.example.PhaseTwo.model.entity.Customer;
+import com.example.PhaseTwo.model.entity.Orders;
 import com.example.PhaseTwo.model.entity.Role;
 import com.example.PhaseTwo.model.entity.dto.CustomerDto;
 import com.example.PhaseTwo.model.repository.CustomerRepository;
+import com.example.PhaseTwo.model.repository.OrdersRepository;
 import com.example.PhaseTwo.model.service.CustomerService;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
@@ -16,9 +18,11 @@ import java.util.stream.Collectors;
 @Service
 public class CustomerServiceImpl implements CustomerService {
     private CustomerRepository customerRepository;
+    private OrdersRepository ordersRepository;
 
-    public CustomerServiceImpl(CustomerRepository customerRepository) {
+    public CustomerServiceImpl(CustomerRepository customerRepository, OrdersRepository ordersRepository) {
         this.customerRepository = customerRepository;
+        this.ordersRepository = ordersRepository;
     }
 
     @Override
@@ -37,7 +41,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public void changingPassword(Long Id, String password) {
         Customer customer = customerRepository.findById(Id).orElse(null);
-        if (customer != null ) {
+        if (customer != null) {
             customer.setPassword(password);
             customerRepository.save(customer);
             return;
@@ -87,12 +91,17 @@ public class CustomerServiceImpl implements CustomerService {
         return customers1.stream().map(customer -> convertingToDto(customer)).collect(Collectors.toList());
     }
 
+    @Override
+    public List<Orders> findOrders(Long CustomerId) {
+        return ordersRepository.findByCustomerId(CustomerId);
+    }
+
     public CustomerDto convertingToDto(Customer customer) {
         CustomerDto customerDto = new CustomerDto(customer.getId(), customer.getFirstname(), customer.getLastname(), customer.getUsername(), customer.getVerified(), customer.getSingUpDate(), customer.getCredit());
         return customerDto;
     }
 
-    public  Customer convertingToCustomer(CustomerDto customerDto) {
+    public Customer convertingToCustomer(CustomerDto customerDto) {
         Customer customer = new Customer();
         customer.setId(customerDto.getId());
         customer.setFirstname(customerDto.getFirstName());

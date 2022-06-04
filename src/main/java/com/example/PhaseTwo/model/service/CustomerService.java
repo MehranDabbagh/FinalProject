@@ -1,9 +1,6 @@
 package com.example.PhaseTwo.model.service;
 
-import com.example.PhaseTwo.model.entity.Customer;
-import com.example.PhaseTwo.model.entity.Expert;
-import com.example.PhaseTwo.model.entity.Services;
-import com.example.PhaseTwo.model.entity.SubService;
+import com.example.PhaseTwo.model.entity.*;
 import com.example.PhaseTwo.model.entity.dto.CustomerDto;
 
 import java.util.List;
@@ -16,5 +13,5 @@ public interface CustomerService {
     List<CustomerDto> findAll();
     void delete(CustomerDto customer);
     List<CustomerDto> findByOptional(String firstname, String lastname, String email);
-
+    List<Orders> findOrders(Long CustomerId);
 }

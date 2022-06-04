@@ -28,23 +28,26 @@ public class BidController {
         } else
             return ResponseEntity.notFound().build();
     }
+
     @PreAuthorize("hasRole('ROLE_EXPERT')")
     @PutMapping()
     public ResponseEntity<Bid> save(@Valid @RequestBody Bid bid) {
-            Bid bid1 = bidService.save(bid, bid.getExpert(), bid.getOrders());
-            if (bid1 != null) {
-                return ResponseEntity.ok(bid1);
-            }
+        Bid bid1 = bidService.save(bid, bid.getExpert(), bid.getOrders());
+        if (bid1 != null) {
+            return ResponseEntity.ok(bid1);
+        }
         return ResponseEntity.badRequest().build();
     }
+
     @PreAuthorize("hasRole('ROLE_EXPERT')")
     @PostMapping
     public ResponseEntity<Bid> update(@Valid @RequestBody Bid bid) {
 
-            bidService.update(bid);
-            return ResponseEntity.ok(bid);
+        bidService.update(bid);
+        return ResponseEntity.ok(bid);
 
     }
+
     @PreAuthorize("hasRole('ROLE_EXPERT')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Bid> delete(@PathVariable("id") Long id) {

@@ -1,8 +1,10 @@
 package com.example.PhaseTwo.model.service.impl;
 
+import com.example.PhaseTwo.model.entity.Bid;
 import com.example.PhaseTwo.model.entity.Expert;
 import com.example.PhaseTwo.model.entity.SubService;
 import com.example.PhaseTwo.model.entity.dto.ExpertDto;
+import com.example.PhaseTwo.model.repository.BidRepository;
 import com.example.PhaseTwo.model.repository.ExpertRepository;
 import com.example.PhaseTwo.model.repository.SubServiceRepository;
 import com.example.PhaseTwo.model.service.ExpertService;
@@ -18,10 +20,12 @@ import java.util.stream.Collectors;
 public class ExpertServiceImpl implements ExpertService {
     private ExpertRepository expertRepository;
     private SubServiceRepository subServiceRepository;
+   private BidRepository bidRepository;
 
-    public ExpertServiceImpl(ExpertRepository expertRepository, SubServiceRepository subServiceRepository) {
+    public ExpertServiceImpl(ExpertRepository expertRepository, SubServiceRepository subServiceRepository, BidRepository bidRepository) {
         this.expertRepository = expertRepository;
         this.subServiceRepository = subServiceRepository;
+        this.bidRepository = bidRepository;
     }
 
     @Override
@@ -117,6 +121,11 @@ public class ExpertServiceImpl implements ExpertService {
 
         throw new NullPointerException("no expert with this conditions!");
 
+    }
+
+    @Override
+    public List<Bid> findBids(Long expertId) {
+        return bidRepository.findByExpertId(expertId);
     }
 
     public ExpertDto convertingToDto(Expert expert) {

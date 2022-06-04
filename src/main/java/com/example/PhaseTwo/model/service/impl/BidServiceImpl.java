@@ -14,6 +14,7 @@ import java.util.InputMismatchException;
 import java.util.List;
 
 @Service
+
 public class BidServiceImpl implements BidService {
     private BidRepository bidRepository;
     private OrderServiceImpl orderService;
@@ -89,4 +90,6 @@ public class BidServiceImpl implements BidService {
         orderService.findById(orderId).setStatus(Status.OnTheWay);
         save(bid, bid.getExpert(), bid.getOrders());
     }
+
+
 }

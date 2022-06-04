@@ -1,11 +1,14 @@
 package com.example.PhaseTwo.controller;
 
+import com.example.PhaseTwo.model.entity.Bid;
 import com.example.PhaseTwo.model.entity.Customer;
+import com.example.PhaseTwo.model.entity.Orders;
 import com.example.PhaseTwo.model.entity.SubService;
 import com.example.PhaseTwo.model.entity.dto.AdminDto;
 import com.example.PhaseTwo.model.entity.dto.CustomerDto;
 import com.example.PhaseTwo.model.entity.dto.PasswordChangingDto;
 import com.example.PhaseTwo.model.service.impl.CustomerServiceImpl;
+import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -38,7 +41,7 @@ public class CustomerController {
 
     @PutMapping()
     public ResponseEntity<CustomerDto> save(@Valid @RequestBody Customer customer) {
-        String password=bCryptPasswordEncoder.encode(customer.getPassword());
+        String password = bCryptPasswordEncoder.encode(customer.getPassword());
         customer.setPassword(password);
         CustomerDto customer1 = customerService.save(customer);
         if (customer1 != null) {
@@ -82,5 +85,14 @@ public class CustomerController {
     public ResponseEntity<CustomerDto> changingPassword(@Valid @RequestBody PasswordChangingDto passwordChangingDto) {
         customerService.changingPassword(passwordChangingDto.getId(), passwordChangingDto.getPassword());
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/History")
+    public ResponseEntity<List<Orders>> findByExpertId(@Valid Long id) {
+        List<Orders> orders = customerService.findOrders(id);
+        if (orders != null) {
+            return ResponseEntity.ok(orders);
+        }
+        return ResponseEntity.notFound().build();
     }
 }

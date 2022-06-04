@@ -1,5 +1,6 @@
 package com.example.PhaseTwo.model.service;
 
+import com.example.PhaseTwo.model.entity.Bid;
 import com.example.PhaseTwo.model.entity.Expert;
 import com.example.PhaseTwo.model.entity.Services;
 import com.example.PhaseTwo.model.entity.SubService;
@@ -17,5 +18,5 @@ public interface ExpertService {
     List<ExpertDto> findAll();
     void delete(ExpertDto expert);
     List<ExpertDto> findByOptional(String firstname,String lastname,String email,Long subServiceId);
-
+    List<Bid> findBids(Long expertId);
 }
