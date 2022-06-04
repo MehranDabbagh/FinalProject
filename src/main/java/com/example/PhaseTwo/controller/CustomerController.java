@@ -106,4 +106,8 @@ public class CustomerController {
         customerService.payingWithCredit(payingWithCredit);
         return ResponseEntity.ok().build();
     }
+    @PostMapping("/payingOnline")
+    public ResponseEntity<Object> payingOnline(){
+        return ResponseEntity.ok().build();
+    }
 }

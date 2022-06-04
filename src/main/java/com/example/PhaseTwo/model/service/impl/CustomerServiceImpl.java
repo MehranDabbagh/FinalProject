@@ -133,7 +133,7 @@ public class CustomerServiceImpl implements CustomerService {
         }
         customer.setCredit(customer.getCredit() - payingWithCredit.getPrice());
         Expert expert = expertRepository.findById(payingWithCredit.getExpertId()).orElse(null);
-        expert.setCredit(expert.getCredit() + payingWithCredit.getPrice());
+        expert.setCredit(expert.getCredit() + Math.round((payingWithCredit.getPrice() * 0.7)));
         expertRepository.save(expert);
         customerRepository.save(customer);
 
