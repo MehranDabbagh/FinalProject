@@ -9,6 +9,7 @@ import com.example.PhaseTwo.model.entity.dto.UserFiltering;
 import com.example.PhaseTwo.model.service.UserService;
 import com.example.PhaseTwo.model.service.impl.AdminServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -87,5 +88,14 @@ public class AdminController {
 
         List<Users> users = adminService.filteringOptional(userFiltering);
         return ResponseEntity.ok(users);
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PostMapping("VerifyingExpert/{id}")
+    public ResponseEntity<Void> VerifyingExpert(@PathVariable("id") Long id) {
+        if (adminService.verifyingExpert(id)) {
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.badRequest().build();
     }
 }

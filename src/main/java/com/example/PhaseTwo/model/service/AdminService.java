@@ -23,4 +23,7 @@ public interface AdminService {
     void changingPassword(Long Id, String password);
 
     List<Users> filteringOptional(UserFiltering userFiltering);
+
+    Boolean verifyingExpert(Long id);
+
 }

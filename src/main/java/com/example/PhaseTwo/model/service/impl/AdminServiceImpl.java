@@ -6,6 +6,7 @@ import com.example.PhaseTwo.model.entity.dto.UserFiltering;
 import com.example.PhaseTwo.model.repository.AdminRepository;
 import com.example.PhaseTwo.model.repository.CustomerRepository;
 import com.example.PhaseTwo.model.repository.ExpertRepository;
+import com.example.PhaseTwo.model.repository.UsersRepository;
 import com.example.PhaseTwo.model.service.AdminService;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
@@ -20,11 +21,13 @@ public class AdminServiceImpl implements AdminService {
     private AdminRepository adminRepository;
     private CustomerRepository customerRepository;
     private ExpertRepository expertRepository;
+    private UsersRepository usersRepository;
 
-    public AdminServiceImpl(AdminRepository adminRepository, CustomerRepository customerRepository, ExpertRepository expertRepository) {
+    public AdminServiceImpl(AdminRepository adminRepository, CustomerRepository customerRepository, ExpertRepository expertRepository, UsersRepository usersRepository) {
         this.adminRepository = adminRepository;
         this.customerRepository = customerRepository;
         this.expertRepository = expertRepository;
+        this.usersRepository = usersRepository;
     }
 
     @Override
@@ -92,6 +95,19 @@ public class AdminServiceImpl implements AdminService {
                         userFiltering.getNumberOfActivities()).stream()
                 .forEach(users::add);
         return users;
+    }
+
+    @Override
+    public Boolean verifyingExpert(Long id) {
+       Expert expert =expertRepository.findById(id).orElse(null);
+        if(expert!=null){
+            if(expert.isEnabled() && !expert.getVerified()){
+                expert.setVerified(true);
+                expertRepository.save(expert);
+                return true;
+            }
+        }
+        return false;
     }
 
     public Admin convertingToAdmin(AdminDto adminDto) {
