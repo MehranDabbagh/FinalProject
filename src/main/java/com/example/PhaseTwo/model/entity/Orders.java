@@ -39,6 +39,10 @@ public class Orders {
     private LocalDateTime requiredDate;
     @NotEmpty
     private String address;
+
     private Status status;
+    @NotEmpty
+    @ManyToOne
+    private Services services;
 
 }

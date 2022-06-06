@@ -1,9 +1,8 @@
 package com.example.PhaseTwo.model.service;
 
-import com.example.PhaseTwo.model.entity.Customer;
-import com.example.PhaseTwo.model.entity.Orders;
-import com.example.PhaseTwo.model.entity.Services;
+import com.example.PhaseTwo.model.entity.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface OrderService {
@@ -13,5 +12,6 @@ public interface OrderService {
     Orders update(Orders orders);
     List<Orders> findAll();
     void delete(Orders orders);
-
+    List<Orders> filteringOrdersByExample(LocalDateTime startTime,LocalDateTime endTime, Status status, SubService subService, Services services);
+    Boolean finishingOrder(Long orderId);
 }

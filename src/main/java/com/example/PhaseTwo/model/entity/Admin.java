@@ -14,6 +14,7 @@ import javax.persistence.*;
 @Setter
 @Component
 @NoArgsConstructor
+@AllArgsConstructor
 public class Admin extends Users {
 
 }

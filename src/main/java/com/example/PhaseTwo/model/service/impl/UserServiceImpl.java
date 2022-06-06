@@ -1,8 +1,12 @@
 package com.example.PhaseTwo.model.service.impl;
 
+import com.example.PhaseTwo.model.entity.Customer;
 import com.example.PhaseTwo.model.entity.Users;
+import com.example.PhaseTwo.model.entity.dto.UserFiltering;
 import com.example.PhaseTwo.model.registration.token.ConfirmationToken;
 import com.example.PhaseTwo.model.registration.token.ConfirmationTokenService;
+import com.example.PhaseTwo.model.repository.CustomerRepository;
+import com.example.PhaseTwo.model.repository.ExpertRepository;
 import com.example.PhaseTwo.model.repository.UsersRepository;
 import com.example.PhaseTwo.model.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +17,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -20,9 +26,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private UsersRepository usersRepository;
     private final static String USER_NOT_FOUND_MSG =
             "user with email %s not found";
-
-    private  BCryptPasswordEncoder bCryptPasswordEncoder;
-    private  ConfirmationTokenService confirmationTokenService;
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private ConfirmationTokenService confirmationTokenService;
 
     public UserServiceImpl(UsersRepository usersRepository, BCryptPasswordEncoder bCryptPasswordEncoder, ConfirmationTokenService confirmationTokenService) {
         this.usersRepository = usersRepository;
@@ -44,6 +49,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         }
         throw new NullPointerException("wrong id!");
     }
+
+
     @Override
     public UserDetails loadUserByUsername(String email)
             throws UsernameNotFoundException {
@@ -52,15 +59,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                         new UsernameNotFoundException(
                                 String.format(USER_NOT_FOUND_MSG, email)));
     }
+
     public String signUpUser(Users appUser) {
         boolean userExists = usersRepository
                 .findByUsername(appUser.getUsername())
                 .isPresent();
 
         if (userExists) {
-            // TODO check of attributes are the same and
-            // TODO if email not confirmed send confirmation email.
-
             throw new IllegalStateException("email already taken");
         }
 

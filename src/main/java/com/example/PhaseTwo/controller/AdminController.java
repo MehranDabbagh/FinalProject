@@ -1,9 +1,12 @@
 package com.example.PhaseTwo.controller;
 
 import com.example.PhaseTwo.model.entity.Admin;
+import com.example.PhaseTwo.model.entity.Users;
 import com.example.PhaseTwo.model.entity.dto.AdminDto;
 import com.example.PhaseTwo.model.entity.dto.CustomerDto;
 import com.example.PhaseTwo.model.entity.dto.PasswordChangingDto;
+import com.example.PhaseTwo.model.entity.dto.UserFiltering;
+import com.example.PhaseTwo.model.service.UserService;
 import com.example.PhaseTwo.model.service.impl.AdminServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -76,5 +79,13 @@ public class AdminController {
     public ResponseEntity<AdminDto> changingPassword(@Valid @RequestBody PasswordChangingDto passwordChangingDto) {
         adminService.changingPassword(passwordChangingDto.getId(), passwordChangingDto.getPassword());
         return ResponseEntity.ok().build();
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping("filteringUsers")
+    public ResponseEntity<List<Users>> optionalFiltering(@RequestBody UserFiltering userFiltering) {
+
+        List<Users> users = adminService.filteringOptional(userFiltering);
+        return ResponseEntity.ok(users);
     }
 }
