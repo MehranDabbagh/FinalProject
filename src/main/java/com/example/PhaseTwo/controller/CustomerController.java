@@ -98,9 +98,9 @@ public class CustomerController {
         }
         return ResponseEntity.notFound().build();
     }
-    @PostMapping("/orderFinishing")
-    public ResponseEntity<Object> orderFinishing(@Valid @RequestBody Orders orders){
-        customerService.finishingOrder(orders.getCustomer().getId(),orders.getId());
+    @PostMapping("/orderFinishing/{bidId}")
+    public ResponseEntity<Object> orderFinishing(@Valid @RequestBody Orders orders,@PathVariable("bidId") Long bidId){
+        customerService.finishingOrder(orders.getCustomer().getId(),orders.getId(),bidId);
         return ResponseEntity.ok().build();
     }
     @PostMapping("/payingWithCredit")

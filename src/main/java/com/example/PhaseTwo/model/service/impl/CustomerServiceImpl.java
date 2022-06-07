@@ -13,6 +13,7 @@ import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 import org.yaml.snakeyaml.util.EnumUtils;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
@@ -104,13 +105,29 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public void finishingOrder(Long customerId, Long orderId) {
+    public void finishingOrder(Long customerId, Long orderId, Long bidId) {
         Orders orders = ordersRepository.findById(orderId).orElse(null);
-        if (orders == null) {
-            throw new NullPointerException("order not found!");
+        LocalDateTime now = LocalDateTime.now();
+        Bid bid = bidRepository.findById(bidId).orElse(null);
+        if (orders == null || bid == null) {
+            throw new NullPointerException("not found!");
         }
         if (orders.getCustomer().getId() != customerId) {
             throw new NullPointerException("order and customer dose not match!");
+        }
+        if (orders.getRequiredDate().plusHours(bid.getHoursNeeded()).isBefore(now)) {
+            Integer delay = now.getHour() - (orders.getRequiredDate().plusHours(bid.getHoursNeeded()).getHour());
+            if (delay > 0) {
+                Expert expert = expertRepository.findById(bid.getExpert().getId()).orElse(null);
+                if (expert != null) {
+                    if (delay > 20) {
+                        expert.setPoint(0l);
+                    } else {
+                        expert.setPoint(expert.getPoint() * ((100 - (delay * 5))) / 100);
+                    }
+                    expertRepository.save(expert);
+                }
+            }
         }
         orders.setStatus(Status.Done);
         ordersRepository.save(orders);

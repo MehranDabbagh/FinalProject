@@ -15,7 +15,7 @@ public interface CustomerService {
     void delete(CustomerDto customer);
     List<CustomerDto> findByOptional(String firstname, String lastname, String email);
     List<Orders> findOrders(Long CustomerId);
-    void finishingOrder(Long customerId,Long orderId);
+    void finishingOrder(Long customerId,Long orderId,Long bidId);
     void payingWithCredit(PayingWithCredit payingWithCredit);
 
 
