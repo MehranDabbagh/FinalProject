@@ -12,6 +12,7 @@ import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -32,6 +33,8 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public AdminDto save(Admin admin) {
+        admin.setRole(Role.ROLE_ADMIN);
+        admin.setSingUpDate(LocalDateTime.now());
         Admin admin1 = adminRepository.save(admin);
         if (admin1 != null) {
             return convertingToDto(admin1);
@@ -99,9 +102,9 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public Boolean verifyingExpert(Long id) {
-       Expert expert =expertRepository.findById(id).orElse(null);
-        if(expert!=null){
-            if(expert.isEnabled() && !expert.getVerified()){
+        Expert expert = expertRepository.findById(id).orElse(null);
+        if (expert != null) {
+            if (expert.isEnabled() && !expert.getVerified()) {
                 expert.setVerified(true);
                 expertRepository.save(expert);
                 return true;

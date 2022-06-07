@@ -1,9 +1,6 @@
 package com.example.PhaseTwo.model.service.impl;
 
-import com.example.PhaseTwo.model.entity.Bid;
-import com.example.PhaseTwo.model.entity.Expert;
-import com.example.PhaseTwo.model.entity.Orders;
-import com.example.PhaseTwo.model.entity.SubService;
+import com.example.PhaseTwo.model.entity.*;
 import com.example.PhaseTwo.model.entity.dto.ExpertDto;
 import com.example.PhaseTwo.model.repository.BidRepository;
 import com.example.PhaseTwo.model.repository.ExpertRepository;
@@ -14,6 +11,7 @@ import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -35,6 +33,8 @@ public class ExpertServiceImpl implements ExpertService {
 
     @Override
     public ExpertDto save(Expert expert) {
+        expert.setRole(Role.ROLE_EXPERT);
+        expert.setSingUpDate(LocalDateTime.now());
         return convertingToDto(expertRepository.save(expert));
     }
 

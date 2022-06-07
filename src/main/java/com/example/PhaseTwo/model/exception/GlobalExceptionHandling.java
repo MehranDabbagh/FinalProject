@@ -12,17 +12,20 @@ import java.util.InputMismatchException;
 public class GlobalExceptionHandling {
     @ExceptionHandler(value = NullPointerException.class)
     public ResponseEntity<Object> nullPointHandler(Exception ex, WebRequest request) {
-        return ResponseEntity.ok(null);
+        ex.printStackTrace();
+        return ResponseEntity.notFound().build();
     }
 
     @ExceptionHandler(value = InputMismatchException.class)
     public ResponseEntity<Object> inputMismatch(Exception ex, WebRequest request) {
+        ex.printStackTrace();
         return ResponseEntity.notFound().build();
     }
 
     @ExceptionHandler(value = RuntimeException.class)
     public ResponseEntity<Object> allHandler(Exception ex, WebRequest request) {
-        return ResponseEntity.ok(null);
+        ex.printStackTrace();
+        return ResponseEntity.badRequest().build();
     }
 
 

@@ -35,9 +35,10 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public CustomerDto save(Customer customer) {
+        customer.setSingUpDate(LocalDateTime.now());
         customer.setRole(Role.ROLE_COSTUMER);
-
         Customer customer1 = customerRepository.save(customer);
+        System.out.println(customer1.getId());
         return convertingToDto(customer1);
     }
 

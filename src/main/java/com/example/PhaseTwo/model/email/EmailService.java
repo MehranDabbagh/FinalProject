@@ -2,6 +2,7 @@ package com.example.PhaseTwo.model.email;
 
 
 import lombok.AllArgsConstructor;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Service;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
@@ -20,7 +21,7 @@ public class EmailService implements EmailSender{
     private final static Logger LOGGER = LoggerFactory
             .getLogger(EmailService.class);
 
-    private final JavaMailSender mailSender;
+    private final JavaMailSender mailSender=new JavaMailSenderImpl();
 
     @Override
     @Async

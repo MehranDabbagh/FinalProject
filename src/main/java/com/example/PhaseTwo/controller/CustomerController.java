@@ -48,6 +48,7 @@ public class CustomerController {
         customer.setPassword(password);
         CustomerDto customer1 = customerService.save(customer);
         if (customer1 != null) {
+            System.out.println(customer1.getId());
             return ResponseEntity.ok(customer1);
         }
         return ResponseEntity.badRequest().build();
