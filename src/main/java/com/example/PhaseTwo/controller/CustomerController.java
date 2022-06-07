@@ -11,11 +11,13 @@ import com.example.PhaseTwo.model.entity.dto.PayingWithCredit;
 import com.example.PhaseTwo.model.service.impl.CustomerServiceImpl;
 import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -110,4 +112,5 @@ public class CustomerController {
     public ResponseEntity<Object> payingOnline(){
         return ResponseEntity.ok().build();
     }
+
 }

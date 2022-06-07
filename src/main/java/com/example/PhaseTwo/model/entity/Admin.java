@@ -13,8 +13,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Component
-@NoArgsConstructor
-@AllArgsConstructor
+
 public class Admin extends Users {
 
 }
