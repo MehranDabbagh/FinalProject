@@ -105,7 +105,7 @@ public class CustomerController {
         return ResponseEntity.ok().build();
     }
     @PostMapping("/payingWithCredit")
-    public ResponseEntity<Object> payingWithCredit(@Valid PayingWithCredit payingWithCredit){
+    public ResponseEntity<Object> payingWithCredit(@Valid @RequestBody PayingWithCredit payingWithCredit){
         customerService.payingWithCredit(payingWithCredit);
         return ResponseEntity.ok().build();
     }

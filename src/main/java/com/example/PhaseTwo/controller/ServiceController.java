@@ -14,7 +14,6 @@ import java.util.List;
 @RequestMapping("/api/Service")
 public class ServiceController {
     private ServiceServiceImpl service;
-
     public ServiceController(ServiceServiceImpl service) {
         this.service = service;
     }

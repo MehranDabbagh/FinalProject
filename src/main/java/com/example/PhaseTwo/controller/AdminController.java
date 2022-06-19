@@ -84,8 +84,7 @@ public class AdminController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("filteringUsers")
-    public ResponseEntity<List<Users>> optionalFiltering(@RequestBody UserFiltering userFiltering) {
-
+    public ResponseEntity<List<Users>> optionalFiltering( @Valid @RequestBody UserFiltering userFiltering) {
         List<Users> users = adminService.filteringOptional(userFiltering);
         return ResponseEntity.ok(users);
     }

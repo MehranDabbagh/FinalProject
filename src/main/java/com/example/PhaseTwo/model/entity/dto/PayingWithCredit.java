@@ -1,17 +1,20 @@
 package com.example.PhaseTwo.model.entity.dto;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 public class PayingWithCredit {
-    @NotEmpty
+    @NotNull
     private Long customerId;
-    @NotEmpty
+    @NotNull
     private Long price;
-    @NotEmpty
+    @NotNull
     private Long orderId;
-    @NotEmpty
+    @NotNull
     private Long expertId;
-    @NotEmpty
+    @NotNull
     private Long bidId;
 
     public PayingWithCredit(Long customerId, Long price, Long orderId, Long expertId, Long bidId) {

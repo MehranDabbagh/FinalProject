@@ -137,23 +137,24 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public void payingWithCredit(PayingWithCredit payingWithCredit) {
-        Orders orders = ordersRepository.findById(payingWithCredit.getOrderId()).orElse(null);
-        if (orders == null || orders.getCustomer().getId() != payingWithCredit.getCustomerId()) {
-            throw new NullPointerException("bad request!");
-        }
-        Bid bid = bidRepository.findById(payingWithCredit.getBidId()).orElse(null);
-        if (bid == null || bid.getExpert().getId() != payingWithCredit.getExpertId() || bid.getOffer() != payingWithCredit.getPrice()) {
-            throw new NullPointerException("bad request!");
-        }
-        Customer customer = customerRepository.findById(payingWithCredit.getCustomerId()).orElse(null);
-        if (customer.getCredit() < payingWithCredit.getPrice()) {
-            throw new InputMismatchException("not enough money!");
-        }
-        customer.setCredit(customer.getCredit() - payingWithCredit.getPrice());
-        Expert expert = expertRepository.findById(payingWithCredit.getExpertId()).orElse(null);
-        expert.setCredit(expert.getCredit() + Math.round((payingWithCredit.getPrice() * 0.7)));
-        expertRepository.save(expert);
-        customerRepository.save(customer);
+
+            Orders orders = ordersRepository.findById(payingWithCredit.getOrderId()).orElse(null);
+            if (orders == null || orders.getCustomer().getId() != payingWithCredit.getCustomerId()) {
+                throw new NullPointerException("bad request!");
+            }
+            Bid bid = bidRepository.findById(payingWithCredit.getBidId()).orElse(null);
+            if (bid == null || bid.getExpert().getId() != payingWithCredit.getExpertId() || bid.getOffer() != payingWithCredit.getPrice()) {
+                throw new NullPointerException("bad request!");
+            }
+            Customer customer = customerRepository.findById(payingWithCredit.getCustomerId()).orElse(null);
+            if (customer.getCredit() < payingWithCredit.getPrice()) {
+                throw new InputMismatchException("not enough money!");
+            }
+            customer.setCredit(customer.getCredit() - payingWithCredit.getPrice());
+            Expert expert = expertRepository.findById(payingWithCredit.getExpertId()).orElse(null);
+            expert.setCredit(expert.getCredit() + Math.round((payingWithCredit.getPrice() * 0.7)));
+            expertRepository.save(expert);
+            customerRepository.save(customer);
 
     }
 
